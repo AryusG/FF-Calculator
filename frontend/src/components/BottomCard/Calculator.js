@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function Card() {
+function Calculator() {
   const [passiveIncomeCalc, setPassiveIncomeCalc] = useState({
     "passiveIncomeGoal": null,
     "fromAge": null,
@@ -40,13 +40,13 @@ function Card() {
         <label>Passive Income Goal: </label>
         <input type='text' name="passiveIncomeGoal" onChange={handleInputChange} required/>
         <label>From Age: </label>
-        <input type="text" name="fromAge" onChange={handleInputChange}/>
+        <input type="text" name="fromAge" onChange={handleInputChange} required/>
         <label>To Age: </label>
-        <input type="text" name="toAge" onChange={handleInputChange}/>
-        <button type="submit">Calculate</button>
+        <input type="text" name="toAge" onChange={handleInputChange} required/>
+        <button className='btn bg-orange-400 text-white' type="submit">Calculate</button>
        </form>
     </div>
   )
 }
 
-export default Card
+export default Calculator
