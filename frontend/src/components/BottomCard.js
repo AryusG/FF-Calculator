@@ -9,30 +9,40 @@ function Card() {
     "totalInvestedGoal": null,
   });
   
-  const calculateInvestmentGoal = () => {
-    const passiveIncomeGoal = passiveIncomeCalc.passiveIncomeGoal;
-    const fromAge = passiveIncomeCalc.fromAge;
-  }
+  const [dividendRate, setDividendRate] = useState(0.08)
 
-  const handleInputChange = (event) => {
+  const calculateInvestmentGoal = () => {
+    // Check if this works
+    const passiveIncomeGoal = passiveIncomeCalc.passiveIncomeGoal;
+    let result = passiveIncomeGoal / dividendRate;
     setPassiveIncomeCalc({
       ...passiveIncomeCalc,
+      "totalInvestedGoal": result
+    });
+  };
+
+  const handleInputChange = (event) => {
+    setPassiveIncomeCalc({...passiveIncomeCalc,
       [event.target.name]: event.target.value,
     })
     console.log(passiveIncomeCalc.passiveIncomeGoal);
-  }
+  };
+
+  const handleSubmit = () => {
+
+  };
 
   return (
     <div>
-       <h1 class="text-center text-3xl font-bold underline">Calculator</h1>
-       <form>
+       <h1 class="text-center text-3xl font-bold ">Calculator</h1>
+       <form onSubmit={handleSubmit}>
         <label>Passive Income Goal: </label>
         <input type='text' name="passiveIncomeGoal" onChange={handleInputChange} required/>
         <label>From Age: </label>
-        <input/>
+        <input type="text" name="fromAge" onChange={handleInputChange}/>
         <label>To Age: </label>
-        <input/>
-        <button onClick={calculateInvestmentGoal}>Calculate</button>
+        <input type="text" name="toAge" onChange={handleInputChange}/>
+        <button type="submit">Calculate</button>
        </form>
     </div>
   )
