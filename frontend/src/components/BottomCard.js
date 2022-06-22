@@ -28,13 +28,14 @@ function Card() {
     console.log(passiveIncomeCalc.passiveIncomeGoal);
   };
 
-  const handleSubmit = () => {
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(passiveIncomeCalc)
   };
 
   return (
     <div>
-       <h1 class="text-center text-3xl font-bold ">Calculator</h1>
+       <h1 className="text-center text-3xl font-bold">Calculator</h1>
        <form onSubmit={handleSubmit}>
         <label>Passive Income Goal: </label>
         <input type='text' name="passiveIncomeGoal" onChange={handleInputChange} required/>

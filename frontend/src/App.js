@@ -1,10 +1,9 @@
-import Card from './components/Card';
-import BottomCard from './components/BottomCard'
+import MainPage from './pages/MainPage';
 
 function App() {
   return (
-    <div className="App">
-      <BottomCard />
+    <div>
+      <MainPage />
     </div>
   );
 }
