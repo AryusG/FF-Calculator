@@ -6,11 +6,12 @@ function Card() {
     "fromAge": null,
     "toAge": null,
     "monthlyPayments": null,
-    "totalInvested": null,
+    "totalInvestedGoal": null,
   });
   
-  const doMath = () => {
-    
+  const calculateInvestmentGoal = () => {
+    const passiveIncomeGoal = passiveIncomeCalc.passiveIncomeGoal;
+    const fromAge = passiveIncomeCalc.fromAge;
   }
 
   const handleInputChange = (event) => {
@@ -26,12 +27,12 @@ function Card() {
        <h1 class="text-center text-3xl font-bold underline">Calculator</h1>
        <form>
         <label>Passive Income Goal: </label>
-        <input type='text' name="passiveIncomeGoal" onChange={handleInputChange}/>
+        <input type='text' name="passiveIncomeGoal" onChange={handleInputChange} required/>
         <label>From Age: </label>
         <input/>
         <label>To Age: </label>
         <input/>
-        <button onClick={doMath}>Calculate</button>
+        <button onClick={calculateInvestmentGoal}>Calculate</button>
        </form>
     </div>
   )
