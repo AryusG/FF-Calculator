@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Financial Freedom - Passive Income Calculator App 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Created for the Pearler Competition 2022
 
 ## Available Scripts
 
