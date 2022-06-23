@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 function Calculator() {
   const [passiveIncomeCalc, setPassiveIncomeCalc] = useState({
-    "passiveIncomeGoal": null,
-    "fromAge": null,
-    "toAge": null,
-    "monthlyPayments": null,
-    "totalInvestedGoal": null,
+    passiveIncomeGoal: '',
+    fromAge: '',
+    toAge: '',
+    monthlyPayments: '',
+    totalInvestedGoal: '',
   });
-  
-  const [dividendRate, setDividendRate] = useState(0.08)
+
+  const [dividendRate, setDividendRate] = useState(0.08);
 
   const calculateInvestmentGoal = () => {
     // Check if this works
@@ -17,36 +17,68 @@ function Calculator() {
     let result = passiveIncomeGoal / dividendRate;
     setPassiveIncomeCalc({
       ...passiveIncomeCalc,
-      "totalInvestedGoal": result
+      totalInvestedGoal: result,
     });
   };
 
   const handleInputChange = (event) => {
-    setPassiveIncomeCalc({...passiveIncomeCalc,
+    setPassiveIncomeCalc({
+      ...passiveIncomeCalc,
       [event.target.name]: event.target.value,
-    })
-    console.log(passiveIncomeCalc.passiveIncomeGoal);
+    });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(passiveIncomeCalc)
+    // Handle error if text is not string  
+    // Add $ to the beginning of input field and make sure to clear it during submit 
+    // Add , for every 3 digits  
+
+    console.log("Submit Called")
+    console.log(passiveIncomeCalc);
+    setPassiveIncomeCalc({
+      ...passiveIncomeCalc,
+      passiveIncomeGoal: '',
+      fromAge: '',
+      toAge: '',
+    })
+    
   };
 
   return (
     <div>
-       <h1 className="text-center text-3xl font-bold">Calculator</h1>
-       <form onSubmit={handleSubmit}>
+      <h1 className="text-center text-3xl font-bold">Calculator</h1>
+      <form onSubmit={handleSubmit}>
         <label>Passive Income Goal: </label>
-        <input type='text' name="passiveIncomeGoal" onChange={handleInputChange} required/>
+        <input
+          type="text"
+          name="passiveIncomeGoal"
+          value={passiveIncomeCalc.passiveIncomeGoal}
+          onChange={handleInputChange}
+          required
+        />
         <label>From Age: </label>
-        <input type="text" name="fromAge" onChange={handleInputChange} required/>
+        <input
+          type="text"
+          name="fromAge"
+          value={passiveIncomeCalc.fromAge}
+          onChange={handleInputChange}
+          required
+        />
         <label>To Age: </label>
-        <input type="text" name="toAge" onChange={handleInputChange} required/>
-        <button className='btn bg-orange-400 text-white' type="submit">Calculate</button>
-       </form>
+        <input
+          type="text"
+          name="toAge"
+          value={passiveIncomeCalc.toAge}
+          onChange={handleInputChange}
+          required
+        />
+        <button className="btn bg-orange-400 text-white" type="submit">
+          Calculate
+        </button>
+      </form>
     </div>
-  )
+  );
 }
 
-export default Calculator
+export default Calculator;
