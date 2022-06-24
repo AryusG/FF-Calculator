@@ -9,16 +9,19 @@ function Calculator() {
     totalInvestedGoal: '',
   });
 
-  const [dividendRate, setDividendRate] = useState(0.08);
+  const [dividendRate, setDividendRate] = useState(0.03);
 
   const calculateInvestmentGoal = () => {
     // Check if this works
-    const passiveIncomeGoal = passiveIncomeCalc.passiveIncomeGoal;
-    let result = passiveIncomeGoal / dividendRate;
+    const passiveIncomeGoal = parseInt(passiveIncomeCalc.passiveIncomeGoal);
+    let result = Math.round(passiveIncomeGoal / dividendRate);
+    
+    console.log(result)
     setPassiveIncomeCalc({
       ...passiveIncomeCalc,
-      totalInvestedGoal: result,
+      totalInvestedGoal: "result",
     });
+    console.log(passiveIncomeCalc.totalInvestedGoal)
   };
 
   const handleInputChange = (event) => {
@@ -35,7 +38,12 @@ function Calculator() {
     // Add , for every 3 digits  
 
     console.log("Submit Called")
+    calculateInvestmentGoal()
+    console.log(passiveIncomeCalc.totalInvestedGoal)
+
+
     console.log(passiveIncomeCalc);
+    // Resets state 
     setPassiveIncomeCalc({
       ...passiveIncomeCalc,
       passiveIncomeGoal: '',
