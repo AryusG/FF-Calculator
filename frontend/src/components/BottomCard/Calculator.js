@@ -15,16 +15,11 @@ function Calculator() {
     // Check if this works
     const passiveIncomeGoal = parseInt(calculatorStorage.passiveIncomeGoal);
     const totalInvestedGoal = Math.round(passiveIncomeGoal / dividendRate); 
-    setCalculatorStorage({
-      ...calculatorStorage,
-      totalInvestedGoal: totalInvestedGoal,
-    }); 
+    return totalInvestedGoal
   };
 
   const calculateMonthlyPayments = () => {
     const totalInvestedGoal = calculatorStorage.totalInvestedGoal;
-    
-    console.log(calculatorStorage)
   }
 
   const handleInputChange = (event) => {
@@ -41,22 +36,23 @@ function Calculator() {
     // Add , for every 3 digits  
 
     console.log("Submit Called")
-    calculateInvestmentGoal()
+    const investmentGoal = calculateInvestmentGoal()
     calculateMonthlyPayments()
-    console.log(calculatorStorage.totalInvestedGoal)
+
     // Resets state 
     setCalculatorStorage({
       ...calculatorStorage,
       passiveIncomeGoal: '',
       fromAge: '',
       toAge: '',
+      totalInvestedGoal: investmentGoal
     })
-    
+    console.log(calculatorStorage.totalInvestedGoal)
   };
 
-  useEffect(() => {
-    console.log(calculatorStorage)
-  }, [calculatorStorage])
+  // useEffect(() => {
+  //   console.log(calculatorStorage)
+  // }, [calculatorStorage])
 
   return (
     <div>
