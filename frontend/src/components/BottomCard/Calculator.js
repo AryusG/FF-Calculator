@@ -43,7 +43,7 @@ function Calculator() {
     console.log("Submit Called")
     calculateInvestmentGoal()
     calculateMonthlyPayments()
-
+    console.log(calculatorStorage.totalInvestedGoal)
     // Resets state 
     setCalculatorStorage({
       ...calculatorStorage,
@@ -61,6 +61,8 @@ function Calculator() {
   return (
     <div>
       <h1 className="text-center text-3xl font-bold">Calculator</h1>
+      <p>{calculatorStorage.passiveIncomeGoal}</p>
+      <h3>{calculatorStorage.totalInvestedGoal}</h3>
       <form onSubmit={handleSubmit}>
         <label>Passive Income Goal: </label>
         <input
