@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Calculator() {
-  const [passiveIncomeCalc, setPassiveIncomeCalc] = useState({
+  const [calculatorStorage, setCalculatorStorage] = useState({
     passiveIncomeGoal: '',
     fromAge: '',
     toAge: '',
@@ -13,20 +13,23 @@ function Calculator() {
 
   const calculateInvestmentGoal = () => {
     // Check if this works
-    const passiveIncomeGoal = parseInt(passiveIncomeCalc.passiveIncomeGoal);
-    let result = Math.round(passiveIncomeGoal / dividendRate);
-    
-    console.log(result)
-    setPassiveIncomeCalc({
-      ...passiveIncomeCalc,
-      totalInvestedGoal: "result",
-    });
-    console.log(passiveIncomeCalc.totalInvestedGoal)
+    const passiveIncomeGoal = parseInt(calculatorStorage.passiveIncomeGoal);
+    const totalInvestedGoal = Math.round(passiveIncomeGoal / dividendRate); 
+    setCalculatorStorage({
+      ...calculatorStorage,
+      totalInvestedGoal: totalInvestedGoal,
+    }); 
   };
 
+  const calculateMonthlyPayments = () => {
+    const totalInvestedGoal = calculatorStorage.totalInvestedGoal;
+    
+    console.log(calculatorStorage)
+  }
+
   const handleInputChange = (event) => {
-    setPassiveIncomeCalc({
-      ...passiveIncomeCalc,
+    setCalculatorStorage({
+      ...calculatorStorage,
       [event.target.name]: event.target.value,
     });
   };
@@ -39,19 +42,21 @@ function Calculator() {
 
     console.log("Submit Called")
     calculateInvestmentGoal()
-    console.log(passiveIncomeCalc.totalInvestedGoal)
+    calculateMonthlyPayments()
 
-
-    console.log(passiveIncomeCalc);
     // Resets state 
-    setPassiveIncomeCalc({
-      ...passiveIncomeCalc,
+    setCalculatorStorage({
+      ...calculatorStorage,
       passiveIncomeGoal: '',
       fromAge: '',
       toAge: '',
     })
     
   };
+
+  useEffect(() => {
+    console.log(calculatorStorage)
+  }, [calculatorStorage])
 
   return (
     <div>
@@ -61,7 +66,7 @@ function Calculator() {
         <input
           type="text"
           name="passiveIncomeGoal"
-          value={passiveIncomeCalc.passiveIncomeGoal}
+          value={calculatorStorage.passiveIncomeGoal}
           onChange={handleInputChange}
           required
         />
@@ -69,7 +74,7 @@ function Calculator() {
         <input
           type="text"
           name="fromAge"
-          value={passiveIncomeCalc.fromAge}
+          value={calculatorStorage.fromAge}
           onChange={handleInputChange}
           required
         />
@@ -77,7 +82,7 @@ function Calculator() {
         <input
           type="text"
           name="toAge"
-          value={passiveIncomeCalc.toAge}
+          value={calculatorStorage.toAge}
           onChange={handleInputChange}
           required
         />
