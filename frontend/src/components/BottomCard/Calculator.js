@@ -9,7 +9,10 @@ function Calculator() {
     totalInvestedGoal: '',
   });
 
+  const [totalInvestedGoal, setTotalInvestedGoal] = useState();
+  const [monthlyPayments, setMonthlyPayments] = useState();
   const [dividendRate, setDividendRate] = useState(0.03);
+  const [growthRate, setGrowthRate] = useState(0.08);
 
   const calculateInvestmentGoal = () => {
     // Check if this works
@@ -19,7 +22,21 @@ function Calculator() {
   };
 
   const calculateMonthlyPayments = () => {
+    // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
+    // ^ Should be done before this function
+    console.log("Start of MonthlyPayments()")
     const totalInvestedGoal = calculatorStorage.totalInvestedGoal;
+    console.log(`totalInvestedGoal: ${totalInvestedGoal}`)
+    const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
+    console.log(`yearsToInvest: ${yearsToInvest}`)
+    const numerator = totalInvestedGoal * ((1 + growthRate/12) - 1);
+    console.log(`numerator: ${numerator}`)
+    const denominator = (Math.pow(1 + growthRate/12, yearsToInvest * 12) - 1);
+    console.log(`denom: ${denominator}`)
+    const monthlyPayments = numerator / denominator;
+    console.log(`montlyPayments: ${monthlyPayments}`)
+    
+    return monthlyPayments
   }
 
   const handleInputChange = (event) => {
@@ -37,14 +54,15 @@ function Calculator() {
 
     console.log("Submit Called")
     const investmentGoal = calculateInvestmentGoal()
-    calculateMonthlyPayments()
-
-    // Resets state 
+    const monthlyPayments = calculateMonthlyPayments()
+    console.log(`During Submit Monthlies: ${monthlyPayments}`)
+    // Resets 
     setCalculatorStorage({
       ...calculatorStorage,
       passiveIncomeGoal: '',
       fromAge: '',
       toAge: '',
+      monthlyPayments: monthlyPayments,
       totalInvestedGoal: investmentGoal
     })
     console.log(calculatorStorage.totalInvestedGoal)
@@ -57,8 +75,8 @@ function Calculator() {
   return (
     <div>
       <h1 className="text-center text-3xl font-bold">Calculator</h1>
-      <p>{calculatorStorage.passiveIncomeGoal}</p>
-      <h3>{calculatorStorage.totalInvestedGoal}</h3>
+      <h2>Monthly Payments: {calculatorStorage.monthlyPayments}</h2>
+      <h3>Total Invested: {calculatorStorage.totalInvestedGoal}</h3>
       <form onSubmit={handleSubmit}>
         <label>Passive Income Goal: </label>
         <input
