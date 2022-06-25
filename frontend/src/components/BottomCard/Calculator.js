@@ -12,31 +12,41 @@ function Calculator() {
   const [dividendRate, setDividendRate] = useState(0.03);
   const [growthRate, setGrowthRate] = useState(0.08);
 
-  const calculateInvestmentGoal = () => {
-    // Check if this works
+  const calculateTotalInvestmentGoal = () => {
     const passiveIncomeGoal = parseInt(calculatorStorage.passiveIncomeGoal);
     const investedGoal = Math.round(passiveIncomeGoal / dividendRate); 
     setTotalInvestedGoal(investedGoal);
-    return investedGoal
   };
 
-  useEffect(() => {
-    const calculateMonthlyPayments = () => {
-      // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
-      // ^ Should be done before this function
-      console.log("Start of MonthlyPayments()")
-      console.log(`totalInvestedGoal: ${totalInvestedGoal}`)
-      const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
-      console.log(`yearsToInvest: ${yearsToInvest}`)
-      const numerator = totalInvestedGoal * ((1 + growthRate/12) - 1);
-      console.log(`numerator: ${numerator}`)
-      const denominator = (Math.pow(1 + growthRate/12, yearsToInvest * 12) - 1);
-      console.log(`denom: ${denominator}`)
-      const monthlyPayments = numerator / denominator;
-      console.log(`montlyPayments: ${monthlyPayments}`)
-      setMonthlyPayments(monthlyPayments);
-    }
+  const calculateMonthlyPayments = () => {
+    // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
+    // ^ Should be done before this function
+    console.log("Start of MonthlyPayments()")
+    console.log(`totalInvestedGoal: ${totalInvestedGoal}`)
+    console.log(`calcStorage toAge: ${calculatorStorage.toAge}`)
+    console.log(`calcStorage fromAge: ${calculatorStorage.fromAge}`)
+    const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
+    console.log(`yearsToInvest: ${yearsToInvest}`)
+    const numerator = totalInvestedGoal * ((1 + growthRate/12) - 1);
+    console.log(`numerator: ${numerator}`)
+    const denominator = (Math.pow(1 + growthRate/12, yearsToInvest * 12) - 1);
+    console.log(`denom: ${denominator}`)
+    const monthlyPayments = numerator / denominator;
+    console.log(`montlyPayments: ${monthlyPayments}`)
+    setMonthlyPayments(Math.round(monthlyPayments));
+  }
 
+  useEffect(() => {
+    calculateMonthlyPayments();
+
+    // This resets the input field. I'd probably get rid of this once we build
+    // The next card to display the results anyways
+    setCalculatorStorage({
+      ...calculatorStorage,
+      passiveIncomeGoal: '',
+      fromAge: '',
+      toAge: '',
+    })
   }, [totalInvestedGoal])
 
 
@@ -52,17 +62,7 @@ function Calculator() {
     // Handle error if text is not string  
     // Add $ to the beginning of input field and make sure to clear it during submit 
     // Add , for every 3 digits  
-
-    console.log("Submit Called")
-    calculateInvestmentGoal()
-    console.log(`During Submit Monthlies: ${monthlyPayments}`)
-    // Resets 
-    setCalculatorStorage({
-      ...calculatorStorage,
-      passiveIncomeGoal: '',
-      fromAge: '',
-      toAge: '',
-    })
+    calculateTotalInvestmentGoal()
   };
 
   return (
