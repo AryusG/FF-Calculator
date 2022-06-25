@@ -5,39 +5,40 @@ function Calculator() {
     passiveIncomeGoal: '',
     fromAge: '',
     toAge: '',
-    monthlyPayments: '',
-    totalInvestedGoal: '',
   });
 
-  const [totalInvestedGoal, setTotalInvestedGoal] = useState();
-  const [monthlyPayments, setMonthlyPayments] = useState();
+  const [totalInvestedGoal, setTotalInvestedGoal] = useState(0);
+  const [monthlyPayments, setMonthlyPayments] = useState(0);
   const [dividendRate, setDividendRate] = useState(0.03);
   const [growthRate, setGrowthRate] = useState(0.08);
 
   const calculateInvestmentGoal = () => {
     // Check if this works
     const passiveIncomeGoal = parseInt(calculatorStorage.passiveIncomeGoal);
-    const totalInvestedGoal = Math.round(passiveIncomeGoal / dividendRate); 
-    return totalInvestedGoal
+    const investedGoal = Math.round(passiveIncomeGoal / dividendRate); 
+    setTotalInvestedGoal(investedGoal);
+    return investedGoal
   };
 
-  const calculateMonthlyPayments = () => {
-    // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
-    // ^ Should be done before this function
-    console.log("Start of MonthlyPayments()")
-    const totalInvestedGoal = calculatorStorage.totalInvestedGoal;
-    console.log(`totalInvestedGoal: ${totalInvestedGoal}`)
-    const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
-    console.log(`yearsToInvest: ${yearsToInvest}`)
-    const numerator = totalInvestedGoal * ((1 + growthRate/12) - 1);
-    console.log(`numerator: ${numerator}`)
-    const denominator = (Math.pow(1 + growthRate/12, yearsToInvest * 12) - 1);
-    console.log(`denom: ${denominator}`)
-    const monthlyPayments = numerator / denominator;
-    console.log(`montlyPayments: ${monthlyPayments}`)
-    
-    return monthlyPayments
-  }
+  useEffect(() => {
+    const calculateMonthlyPayments = () => {
+      // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
+      // ^ Should be done before this function
+      console.log("Start of MonthlyPayments()")
+      console.log(`totalInvestedGoal: ${totalInvestedGoal}`)
+      const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
+      console.log(`yearsToInvest: ${yearsToInvest}`)
+      const numerator = totalInvestedGoal * ((1 + growthRate/12) - 1);
+      console.log(`numerator: ${numerator}`)
+      const denominator = (Math.pow(1 + growthRate/12, yearsToInvest * 12) - 1);
+      console.log(`denom: ${denominator}`)
+      const monthlyPayments = numerator / denominator;
+      console.log(`montlyPayments: ${monthlyPayments}`)
+      setMonthlyPayments(monthlyPayments);
+    }
+
+  }, [totalInvestedGoal])
+
 
   const handleInputChange = (event) => {
     setCalculatorStorage({
@@ -53,8 +54,7 @@ function Calculator() {
     // Add , for every 3 digits  
 
     console.log("Submit Called")
-    const investmentGoal = calculateInvestmentGoal()
-    const monthlyPayments = calculateMonthlyPayments()
+    calculateInvestmentGoal()
     console.log(`During Submit Monthlies: ${monthlyPayments}`)
     // Resets 
     setCalculatorStorage({
@@ -62,21 +62,14 @@ function Calculator() {
       passiveIncomeGoal: '',
       fromAge: '',
       toAge: '',
-      monthlyPayments: monthlyPayments,
-      totalInvestedGoal: investmentGoal
     })
-    console.log(calculatorStorage.totalInvestedGoal)
   };
-
-  // useEffect(() => {
-  //   console.log(calculatorStorage)
-  // }, [calculatorStorage])
 
   return (
     <div>
       <h1 className="text-center text-3xl font-bold">Calculator</h1>
-      <h2>Monthly Payments: {calculatorStorage.monthlyPayments}</h2>
-      <h3>Total Invested: {calculatorStorage.totalInvestedGoal}</h3>
+      <h2>Monthly Payments: {monthlyPayments}</h2>
+      <h3>Total Invested: {totalInvestedGoal}</h3>
       <form onSubmit={handleSubmit}>
         <label>Passive Income Goal: </label>
         <input
