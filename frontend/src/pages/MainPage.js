@@ -1,7 +1,7 @@
 import React from 'react'
 import Avatar from '../components/Avatar'
 import ProgressBar from '../components/ProgressBar'
-import BottomCard from '../components/BottomCard/BottomCard'
+import Calculator from '../components/Calculator'
 import LandingPage from './LandingPage'
 
 function MainPage() {
@@ -13,7 +13,7 @@ function MainPage() {
         <Avatar />
         <ProgressBar />
         <div>
-          <BottomCard />
+          <Calculator />
         </div>
       </div>
     </div>
