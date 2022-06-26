@@ -32,7 +32,7 @@ function Calculator() {
     calculateMonthlyPayments();
   }, [totalInvestedGoal])
 
-
+  // Hi 
   const handleInputChange = (event) => {
     setCalculatorStorage({
       ...calculatorStorage,
