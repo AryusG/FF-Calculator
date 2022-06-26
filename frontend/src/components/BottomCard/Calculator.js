@@ -5,27 +5,50 @@ function Calculator() {
     passiveIncomeGoal: '',
     fromAge: '',
     toAge: '',
-    monthlyPayments: '',
-    totalInvestedGoal: '',
   });
 
+  const [totalInvestedGoal, setTotalInvestedGoal] = useState(0);
+  const [monthlyPayments, setMonthlyPayments] = useState(0);
   const [dividendRate, setDividendRate] = useState(0.03);
+  const [growthRate, setGrowthRate] = useState(0.08);
 
-  const calculateInvestmentGoal = () => {
-    // Check if this works
+  const calculateTotalInvestmentGoal = () => {
     const passiveIncomeGoal = parseInt(calculatorStorage.passiveIncomeGoal);
-    const totalInvestedGoal = Math.round(passiveIncomeGoal / dividendRate); 
-    setCalculatorStorage({
-      ...calculatorStorage,
-      totalInvestedGoal: totalInvestedGoal,
-    }); 
+    const investedGoal = Math.round(passiveIncomeGoal / dividendRate); 
+    setTotalInvestedGoal(investedGoal);
   };
 
   const calculateMonthlyPayments = () => {
-    const totalInvestedGoal = calculatorStorage.totalInvestedGoal;
-    
-    console.log(calculatorStorage)
+    // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
+    // ^ Should be done before this function
+    console.log("Start of MonthlyPayments()")
+    console.log(`totalInvestedGoal: ${totalInvestedGoal}`)
+    console.log(`calcStorage toAge: ${calculatorStorage.toAge}`)
+    console.log(`calcStorage fromAge: ${calculatorStorage.fromAge}`)
+    const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
+    console.log(`yearsToInvest: ${yearsToInvest}`)
+    const numerator = totalInvestedGoal * ((1 + growthRate/12) - 1);
+    console.log(`numerator: ${numerator}`)
+    const denominator = (Math.pow(1 + growthRate/12, yearsToInvest * 12) - 1);
+    console.log(`denom: ${denominator}`)
+    const monthlyPayments = numerator / denominator;
+    console.log(`montlyPayments: ${monthlyPayments}`)
+    setMonthlyPayments(Math.round(monthlyPayments));
   }
+
+  useEffect(() => {
+    calculateMonthlyPayments();
+
+    // This resets the input field. I'd probably get rid of this once we build
+    // The next card to display the results anyways
+    setCalculatorStorage({
+      ...calculatorStorage,
+      passiveIncomeGoal: '',
+      fromAge: '',
+      toAge: '',
+    })
+  }, [totalInvestedGoal])
+
 
   const handleInputChange = (event) => {
     setCalculatorStorage({
@@ -39,30 +62,14 @@ function Calculator() {
     // Handle error if text is not string  
     // Add $ to the beginning of input field and make sure to clear it during submit 
     // Add , for every 3 digits  
-
-    console.log("Submit Called")
-    calculateInvestmentGoal()
-    calculateMonthlyPayments()
-    console.log(calculatorStorage.totalInvestedGoal)
-    // Resets state 
-    setCalculatorStorage({
-      ...calculatorStorage,
-      passiveIncomeGoal: '',
-      fromAge: '',
-      toAge: '',
-    })
-    
+    calculateTotalInvestmentGoal()
   };
-
-  useEffect(() => {
-    console.log(calculatorStorage)
-  }, [calculatorStorage])
 
   return (
     <div>
       <h1 className="text-center text-3xl font-bold">Calculator</h1>
-      <p>{calculatorStorage.passiveIncomeGoal}</p>
-      <h3>{calculatorStorage.totalInvestedGoal}</h3>
+      <h2>Monthly Payments: {monthlyPayments}</h2>
+      <h3>Total Invested: {totalInvestedGoal}</h3>
       <form onSubmit={handleSubmit}>
         <label>Passive Income Goal: </label>
         <input
