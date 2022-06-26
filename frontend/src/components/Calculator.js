@@ -6,7 +6,7 @@ function Calculator() {
     fromAge: '',
     toAge: '',
   });
-
+  
   const [totalInvestedGoal, setTotalInvestedGoal] = useState(0);
   const [monthlyPayments, setMonthlyPayments] = useState(0);
   const [dividendRate, setDividendRate] = useState(0.03);
@@ -18,35 +18,18 @@ function Calculator() {
     setTotalInvestedGoal(investedGoal);
   };
 
-  const calculateMonthlyPayments = () => {
-    // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
-    // ^ Should be done before this function
-    console.log("Start of MonthlyPayments()")
-    console.log(`totalInvestedGoal: ${totalInvestedGoal}`)
-    console.log(`calcStorage toAge: ${calculatorStorage.toAge}`)
-    console.log(`calcStorage fromAge: ${calculatorStorage.fromAge}`)
-    const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
-    console.log(`yearsToInvest: ${yearsToInvest}`)
-    const numerator = totalInvestedGoal * ((1 + growthRate/12) - 1);
-    console.log(`numerator: ${numerator}`)
-    const denominator = (Math.pow(1 + growthRate/12, yearsToInvest * 12) - 1);
-    console.log(`denom: ${denominator}`)
-    const monthlyPayments = numerator / denominator;
-    console.log(`montlyPayments: ${monthlyPayments}`)
-    setMonthlyPayments(Math.round(monthlyPayments));
-  }
-
   useEffect(() => {
-    calculateMonthlyPayments();
+    const calculateMonthlyPayments = () => {
+      // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
+      // ^ Should be done before this function
+      const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
+      const numerator = totalInvestedGoal * ((1 + growthRate/12) - 1);
+      const denominator = (Math.pow(1 + growthRate/12, yearsToInvest * 12) - 1);
+      const monthlyPayments = numerator / denominator;
+      setMonthlyPayments(Math.round(monthlyPayments));
+    }
 
-    // This resets the input field. I'd probably get rid of this once we build
-    // The next card to display the results anyways
-    setCalculatorStorage({
-      ...calculatorStorage,
-      passiveIncomeGoal: '',
-      fromAge: '',
-      toAge: '',
-    })
+    calculateMonthlyPayments();
   }, [totalInvestedGoal])
 
 

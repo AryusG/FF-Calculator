@@ -1,9 +1,12 @@
-import MainPage from './pages/MainPage';
+import LandingPage from './pages/LandingPage';
+// import MainPage from './pages/MainPage';
+// Add Routing
 
 function App() {
   return (
     <div>
-      <MainPage />  
+      <LandingPage />
+      {/* <MainPage />   */}
     </div>
   );
 }
