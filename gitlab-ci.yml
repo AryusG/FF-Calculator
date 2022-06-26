@@ -1,0 +1,9 @@
+image: ff-calculator/basic:latest
+
+stages:
+  - checks
+
+test:
+  stage: checks
+  script:
+    - npm run test
