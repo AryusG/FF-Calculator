@@ -2,9 +2,29 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-  ], 
+    "./components/**/*.{html,js}",
+    "./pages/**/*.{html,js}",
+  ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        transparent: "transparent",
+        current: "currentColor",
+        pink: "#F20D60",
+        orange: "#FF3636",
+        violet: "#8941FF",
+        purple: {
+          500: "#3F29C7",
+          700: "#342398",
+          900: "#140F34"
+        },
+        green: {
+          100: "#E6FFD2",
+          300: "#81FF1E",
+          500: "#59CA00"
+        }
+      },
+    },
   },
   plugins: [],
-}
+};
