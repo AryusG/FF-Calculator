@@ -1,19 +1,16 @@
-import React from 'react'
+import React from "react";
+import NavBar from "../components/NavBar";
 
 function LandingPage() {
   const handleSignIn = () => {
     // Do your ting
-  }
+  };
 
   return (
-    <div>
-      <button 
-        className='btn bg-orange-400 text-white'
-        onClick={handleSignIn}
-        >
-        Sign In</button>
+    <div className="bg-purple-900 w-full h-screen">
+      <NavBar />
     </div>
-  )
+  );
 }
 
-export default LandingPage
+export default LandingPage;
