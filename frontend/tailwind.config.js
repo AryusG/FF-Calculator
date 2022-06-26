@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        ubuntu: "'Ubuntu', sans-serif",
+      },
       colors: {
         transparent: "transparent",
         current: "currentColor",
@@ -16,13 +19,13 @@ module.exports = {
         purple: {
           500: "#3F29C7",
           700: "#342398",
-          900: "#140F34"
+          900: "#140F34",
         },
         green: {
           100: "#E6FFD2",
           300: "#81FF1E",
-          500: "#59CA00"
-        }
+          500: "#59CA00",
+        },
       },
     },
   },

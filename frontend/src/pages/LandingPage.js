@@ -1,4 +1,5 @@
 import React from "react";
+import NavBar from "../components/NavBar";
 
 function LandingPage() {
   const handleSignIn = () => {
@@ -6,10 +7,8 @@ function LandingPage() {
   };
 
   return (
-    <div className="bg-purple-900 h-screen">
-      <button className="btn bg-orange-400 text-white" onClick={handleSignIn}>
-        Sign In
-      </button>
+    <div className="bg-purple-900 w-full h-screen">
+      <NavBar />
     </div>
   );
 }

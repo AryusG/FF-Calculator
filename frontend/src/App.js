@@ -1,5 +1,5 @@
 import LandingPage from './pages/LandingPage';
-import MainPage from './pages/MainPage';
+// import MainPage from './pages/MainPage';
 // Add Routing
 
 function App() {
