@@ -11,8 +11,8 @@ function NavBar() {
 
   return (
     <div className="bg-white shadow-md w-full fixed top-0 left-0">
-      <div className="font-ubuntu md:flex items-center bg-purple-700 py-4 
-      md:px-12 px-7 ">
+      <div className="font-ubuntu bg-purple-500 md:flex md:items-center md:justify-between 
+       py-4 md:px-12 px-7">
         <div className='font-ubuntu font-bold text-2xl md:mr-6 text-white 
         cursor-pointer flex items-center'>
           <span className='text-3xl mr-2 pt-2'>
@@ -21,20 +21,23 @@ function NavBar() {
           FF-Land 
         </div>
         <ul className="md:flex md:items-center md:pb-0 pb-12 absolute md:static
-          md:z-auto">
+          z-[-1] md:z-auto md:bg-purple-500 bg-purple-700">
           {
             Links.map((link) => {
               return (
                 <li key={link.name} className='md:ml-14 text-lg 
                   md:my-0 my-6'>
-                  <a href={link.url} className="text-white font-light hover:text-pink duration-500">{link.name}</a>
+                  <a href={link.url} className="text-white font-light 
+                    hover:text-pink duration-300">{link.name}</a>
                 </li>
               )
             })
           }
+        </ul>
+        <div className="md:ml-auto">
           <ButtonWhite name="Log In"/>
           <ButtonPink name="Sign Up"/>
-        </ul>
+        </div>
       </div>
     </div>
   )
