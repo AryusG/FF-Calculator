@@ -10,7 +10,7 @@ function NavBar() {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
   return (
-    <div className="bg-white shadow-md w-full fixed top-0 left-0">
+    <div className="bg-white shadow-md w-full sticky top-0 left-0">
       <div className="font-ubuntu bg-purple-500 lg:flex lg:items-center lg:justify-between 
        py-4 lg:px-12 px-7">
         <div className='font-ubuntu font-bold text-2xl lg:mr-6 text-white 
