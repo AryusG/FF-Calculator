@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 .btn {
-  @apply rounded-md py-1.5 px-8 font-medium 
+  @apply rounded-md py-1.5 px-6 font-medium 
   cursor-pointer tracking-wide 
 }
