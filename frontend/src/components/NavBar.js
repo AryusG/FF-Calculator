@@ -30,13 +30,13 @@ function NavBar() {
           lg:pb-0 pb-8 absolute lg:static z-[-1] lg:z-auto left-0 lg:py-0 pt-4 
           lg:w-auto w-full lg:pl-0 pl-7 
           transition-all ease-in duration-300 ${hamburgerOpen ? "top-18 opacity-100" : 
-          "lg:opacity-100 opacity-0"}`}>
+          "lg:opacity-100 opacity-0 hidden"}`}>
           {
             Links.map((link) => {
               return (
                 <li key={link.name} className='lg:ml-14 text-lg 
                   lg:my-0 my-6'>
-                  <a href={link.url} className="text-white font-light 
+                  <a href={link.url} className="text-white font-regular 
                     hover:text-pink duration-300">{link.name}</a>
                 </li>
               )
