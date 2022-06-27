@@ -25,7 +25,7 @@ function Hero() {
           S&P 500 and earn in-game items to customize your digital haven.
         </div>
         <div className="">
-          <button className="btn-pink">Sign Up</button>
+          <button className="btn-pink ">Sign Up</button>
         </div>
       </div>
       <div className="sm:my-40">
