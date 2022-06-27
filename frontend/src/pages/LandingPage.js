@@ -1,30 +1,10 @@
 import React, { useEffect, useState} from "react";
 import NavBar from "../components/NavBar";
-import 'firebase/auth';
-import { getIdToken, getIdTokenResult, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import {getAuth, signInWithCustomToken} from "firebase/auth";
 
 function LandingPage() {
-  const [auth, setAuth] = useState(false) || window.localStorage.getItem("loggedin") === "true";
-  const [token, setToken] = useState("");
-
-  useEffect(()=> {
-    onAuthStateChanged((userCred) => {
-      if (userCred) 
-        setAuth(true);
-        window.localStorage.setItem("loggedin", "true");
-        getIdToken().then((token) => {
-          setToken(token);
-        });
-    });
-  }, []);
-
-  const googleLogIn = () => {
-    signInWithPopup(new GoogleAuthProvider()).then((userCred) => {
-      if (userCred) {
-        setAuth(true);
-      }
-    });
-  };
+ 
+  const auth = getAuth();
 
   return (
     <div className="bg-purple-900 w-full h-screen">
