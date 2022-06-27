@@ -9,7 +9,7 @@ function Hero() {
         <img
           src={insideHouse}
           alt="inside-house"
-          className="py-7 mx-auto"
+          className="py-5 mx-auto"
         />
         <h1 className="font-ubuntu font-bold text-4xl text-white pb-7">
           <div>Gamify Your Path to</div>
