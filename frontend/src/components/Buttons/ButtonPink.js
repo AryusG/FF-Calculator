@@ -3,7 +3,7 @@ import React from 'react'
 function ButtonPink({ name }) {
   return (
     <button className="btn font-ubuntu bg-pink text-white 
-      hover:border-2 duration-300">
+      transition ease-in-out hover:scale-105 hover:-translate-y-1 duration-300">
       {name}
     </button>
   )
