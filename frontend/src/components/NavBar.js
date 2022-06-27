@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import ButtonPink from './Buttons/ButtonPink';
-import ButtonWhite from './Buttons/ButtonWhite';
 
 function NavBar() {
   let Links = [
@@ -44,19 +42,19 @@ function NavBar() {
           }
           <div className="lg:hidden block">
             <span className="mr-4">
-              <ButtonWhite name="Log In"/>
+              <button className="btn-white">Log In</button>
             </span>
             <span>
-              <ButtonPink name="Sign Up"/>
+              <button className="btn-pink">Sign Up</button>
             </span>
           </div>
         </ul>
         <div className="lg:ml-auto flex">
           <div className="lg:ml-4 lg:block hidden">
-            <ButtonWhite name="Log In"/>
+            <button className="btn-white">Log In</button>
           </div>
           <div className="lg:ml-4 lg:block hidden">
-            <ButtonPink name="Sign Up"/>
+            <button className="btn-pink">Sign Up</button>
           </div>
         </div>
       </div>

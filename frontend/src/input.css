@@ -3,6 +3,19 @@
 @tailwind utilities;
 
 .btn {
-  @apply rounded-md py-1.5 px-6 font-medium 
-  cursor-pointer tracking-wide 
+  @apply font-ubuntu rounded-md py-1.5 px-6 font-medium 
+  cursor-pointer tracking-wide transition ease-in-out hover:scale-105 
+  hover:-translate-y-1 duration-300
+}
+
+.btn-pink {
+  @apply btn bg-pink text-white
+}
+
+.btn-white {
+  @apply btn bg-white text-pink
+}
+
+.btn-green {
+  @apply btn bg-green-500 text-purple-900
 }
