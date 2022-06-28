@@ -19,7 +19,7 @@ function AccountPortal() {
       </Link>
 
       <div className="sm:grid grid-cols-2 bg-purple-900 min-h-screen text-center
-        py-36 overflow-hidden">
+        py-36 overflow-hidden ">
         <div className="lg:pl-52 md:pl-20 sm:pl-10 px-4 relative">
           <div className="font-ubuntu text-white font-bold text-5xl py-7">
             <div className="">
@@ -38,10 +38,11 @@ function AccountPortal() {
           lg:left-68 md:left-36 md:max-w-2xl sm:max-w-lg sm:left-28 sm:mt-6  
           max-w-md px-4 sm:block hidden"/>
         </div>
-        <div className="mt-12 z-10">
+        <div className="z-10">
           {/* Add Error Page */}
           {type === "signup" ? <SignUpCard /> : 
-            type === "login" ? <LoginCard /> : 'Insert Error Page'}
+            type === "login" ? <div className="mt-3"><LoginCard /></div>: 
+            'Insert Error Page'}
         </div>
         <img src={LakeLand} alt="LakeLand" className="mx-4 sm:hidden mt-4" />
       </div>

@@ -26,14 +26,14 @@
 
 .input-gray {
   @apply bg-gray-100 rounded-xl font-light py-2.5 px-5 my-6
-  focus:placeholder-transparent text-base 
+  placeholder-transparent text-base 
 }
 
 .floating-label {
-  @apply left-5 -top-1 font-light text-gray-500 text-base block transition-all 
+  @apply left-5 -top-1 font-light text-gray-500 text-base transition-all 
   peer-placeholder-shown:text-base peer-placeholder-shown:font-light
-  peer-placeholder-shown:top-[34px] peer-placeholder-shown:hidden
+  peer-placeholder-shown:top-[34px] pointer-events-none
   peer-placeholder-shown:text-gray-400 
   peer-focus:left-5 peer-focus:-top-1 peer-focus:text-gray-600
-  peer-focus:text-base peer-focus:block
+  peer-focus:text-base 
 }
