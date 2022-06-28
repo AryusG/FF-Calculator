@@ -6,6 +6,7 @@ function LoginCard() {
       <div>
         Log In
       </div>
+      <button className="btn-white border-pink">Sign In With Google</button>
     </div>
   )
 }

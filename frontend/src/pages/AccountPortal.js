@@ -1,6 +1,7 @@
 import React from 'react'
 import SignUpCard from '../components/PortalComponents/SignUpCard'
 import LoginCard from '../components/PortalComponents/LoginCard'
+import LakeLand from '../assets/houses/lake-land.png'
 import { Link, useParams } from 'react-router-dom'
 
 function AccountPortal() {
@@ -17,9 +18,9 @@ function AccountPortal() {
         </div>  
       </Link>
 
-      <div className="sm:grid grid-cols-2 bg-purple-900 h-screen text-center
+      <div className="sm:grid grid-cols-2 bg-purple-900 min-h-screen text-center
         py-36">
-        <div className="lg:pl-52 md:pl-20 sm:pl-10 px-4">
+        <div className="lg:pl-52 md:pl-20 sm:pl-10 px-4 relative">
           <div className="font-ubuntu text-white font-bold text-5xl py-7">
             <div className="">
               Reach your
@@ -32,6 +33,7 @@ function AccountPortal() {
           <div className="font-ubuntu font-regular text-lg text-white">
             Whilst having fun and socialising with other players at the same time!
           </div>
+          {/* <img src={LakeLand} alt="LakeLand" className="absolute"/> */}
         </div>
 
         
