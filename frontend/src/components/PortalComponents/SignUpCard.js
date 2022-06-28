@@ -1,4 +1,5 @@
 import React from 'react'
+import GoogleSVG from '../../assets/sign-in-svgs/Google.png'
 
 function SignUpCard() {
   return (
@@ -7,7 +8,7 @@ function SignUpCard() {
         <div className='text-2xl font-medium'>
           Get Started
         </div>
-        <form>
+        <form className="pb-3">
           <div className="flex-col gap-4 px-7 py-4">
             <input placeholder="Email *" className="input-gray" />
             <input placeholder="Password *" className="input-gray" />
@@ -23,6 +24,12 @@ function SignUpCard() {
           </div> 
           <button className="btn-pink w-auto">Register</button>
         </form>
+        <button className="btn-white border border-pink inline-flex">
+          {/* <img src={GoogleSVG} alt="Google SVG" className="object-scale-down"/> */}
+          <span>
+            Register with Google
+          </span>
+        </button>
       </div>
     </div>
   )
