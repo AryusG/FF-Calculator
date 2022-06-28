@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Link } from 'react-router-dom';
 import twoStoryCozy from "../assets/houses/two-story-cozy.png";
 import insideHouse from "../assets/houses/inside-house.png";
 
@@ -15,7 +16,7 @@ function Hero() {
           <div>Gamify Your Path to</div>
           <div
             className="text-transparent bg-clip-text 
-           bg-gradient-to-tr from-orange to-purple-300"
+            bg-gradient-to-tr from-orange to-purple-300"
           >
             Financial Freedom
           </div>
@@ -24,8 +25,10 @@ function Hero() {
           Connected to our partnered stock brokerages, dollar cost average the
           S&P 500 and earn in-game items to customize your digital haven.
         </div>
-        <div className="">
-          <button className="btn-pink ">Sign Up</button>
+        <div>
+          <Link to="portal/signup">
+            <button className="btn-pink ">Sign Up</button>
+          </Link>
         </div>
       </div>
       <div className="sm:my-40">

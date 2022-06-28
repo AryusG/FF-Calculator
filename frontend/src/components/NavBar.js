@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function NavBar() {
   let Links = [
@@ -19,11 +20,16 @@ function NavBar() {
           className="font-ubuntu font-bold text-2xl lg:mr-6 text-white 
         cursor-pointer flex items-center justify-between"
         >
-          <span className="hover:scale-110 duration-300">FF-Land</span>
+          <Link to="/">
+            <span className="hover:scale-110 active:scale-90 
+              duration-300">
+              FF-Land
+            </span>
+          </Link>
           <span
             onClick={() => setHamburgerOpen(!hamburgerOpen)}
-            className="text-4xl cursor-pointer lg:hidden mx-2 -mb-3"
-          >
+            className="text-4xl cursor-pointer lg:hidden mx-2 -mb-3 hover:scale-110
+            active:scale-90 duration-300">
             <ion-icon
               name={hamburgerOpen ? "close-outline" : "menu-outline"}
             ></ion-icon>
@@ -39,38 +45,46 @@ function NavBar() {
               : "lg:opacity-100 opacity-0 hidden"
           }`}
         >
-          {Links.map((link) => {
+          {Links.map((url) => {
             return (
               <li
-                key={link.name}
+                key={url.name}
                 className="lg:ml-14 text-lg 
                   lg:my-0 my-6"
               >
                 <a
-                  href={link.url}
+                  href={url.url}
                   className="text-white font-regular 
                     hover:text-pink duration-300"
                 >
-                  {link.name}
+                  {url.name}
                 </a>
               </li>
             );
           })}
           <div className="lg:hidden block">
             <span className="mr-4">
-              <button className="btn-white">Log In</button>
+              <Link to="portal/login">
+                <button className="btn-white">Log In</button>
+              </Link>
             </span>
             <span>
-              <button className="btn-pink">Sign Up</button>
+              <Link to="portal/signup">
+                <button className="btn-pink">Sign Up</button>
+              </Link>
             </span>
           </div>
         </ul>
         <div className="lg:ml-auto flex">
           <div className="lg:ml-4 lg:block hidden">
-            <button className="btn-white">Log In</button>
+            <Link to="portal/login">
+              <button className="btn-white">Log In</button>
+            </Link>
           </div>
           <div className="lg:ml-4 lg:block hidden">
-            <button className="btn-pink">Sign Up</button>
+            <Link to="portal/signup">
+              <button className="btn-pink">Sign Up</button>
+            </Link>
           </div>
         </div>
       </div>
