@@ -19,3 +19,12 @@
 .btn-green {
   @apply btn bg-green-500 text-purple-900
 }
+
+.card-white {
+  @apply rounded-lg bg-white shadow-md py-8 px-4
+}
+
+.input-gray {
+  @apply bg-gray-100 rounded-xl font-light py-1.5 px-5 my-2
+  
+}

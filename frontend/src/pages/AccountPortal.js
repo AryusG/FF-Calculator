@@ -1,7 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import SignUpCard from '../components/PortalComponents/SignUpCard'
+import LoginCard from '../components/PortalComponents/LoginCard'
+import { Link, useParams } from 'react-router-dom'
 
 function AccountPortal() {
+  const { type } = useParams();
+
   return (
     <div>
       <Link to="/">
@@ -15,8 +19,8 @@ function AccountPortal() {
 
       <div className="sm:grid grid-cols-2 bg-purple-900 h-screen text-center
         py-36">
-        <div>
-          <div className="font-ubuntu text-white font-bold text-4xl py-7">
+        <div className="lg:pl-52 md:pl-20 sm:pl-10 px-4">
+          <div className="font-ubuntu text-white font-bold text-5xl py-7">
             <div className="">
               Reach your
             </div>
@@ -30,8 +34,11 @@ function AccountPortal() {
           </div>
         </div>
 
+        
         <div>
-
+          {/* Add Error Page */}
+          {type === "signup" ? <SignUpCard /> : 
+            type === "login" ? <LoginCard /> : 'Insert Error Page'}
         </div>
       </div>
     </div>

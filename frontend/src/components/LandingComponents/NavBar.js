@@ -21,10 +21,10 @@ function NavBar() {
         cursor-pointer flex items-center justify-between"
         >
           <Link to="/">
-            <span className="hover:scale-110 active:scale-90 
+            <div className="hover:scale-110 active:scale-90 
               duration-300">
               FF-Land
-            </span>
+            </div>
           </Link>
           <span
             onClick={() => setHamburgerOpen(!hamburgerOpen)}

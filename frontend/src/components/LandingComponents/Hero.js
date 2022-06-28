@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import twoStoryCozy from "../assets/houses/two-story-cozy.png";
-import insideHouse from "../assets/houses/inside-house.png";
+import twoStoryCozy from "../../assets/houses/two-story-cozy.png";
+import insideHouse from "../../assets/houses/inside-house.png";
 
 function Hero() {
   return (
@@ -25,10 +25,15 @@ function Hero() {
           Connected to our partnered stock brokerages, dollar cost average the
           S&P 500 and earn in-game items to customize your digital haven.
         </div>
-        <div>
+        <div className="flex gap-8">
           <Link to="portal/signup">
             <button className="btn-pink ">Sign Up</button>
           </Link>
+          <div className="lg:hidden block ">
+            <Link to="portal/login">
+              <button className="btn-white">Log In</button>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="sm:my-40">
