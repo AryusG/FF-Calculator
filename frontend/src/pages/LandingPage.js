@@ -1,11 +1,11 @@
 import React from "react";
-import Hero from "../components/Hero";
-import NavBar from "../components/NavBar";
+import Hero from "../components/LandingComponents/Hero";
+import NavBar from "../components/LandingComponents/NavBar";
 
 function LandingPage() {
 
   return (
-    <div className="bg-purple-900 w-full sm:h-screen h-full">
+    <div className="bg-purple-900 w-full h-screen">
       <NavBar />
       <Hero />
     </div>
