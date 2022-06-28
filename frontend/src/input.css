@@ -3,6 +3,28 @@
 @tailwind utilities;
 
 .btn {
-  @apply rounded-md py-1.5 px-6 font-medium 
-  cursor-pointer tracking-wide 
+  @apply font-ubuntu rounded-md py-1.5 px-6 font-medium 
+  cursor-pointer tracking-wide transition ease-in-out hover:scale-105 
+  active:scale-90 duration-300
+}
+
+.btn-pink {
+  @apply btn bg-pink text-white
+}
+
+.btn-white {
+  @apply btn bg-white text-pink
+}
+
+.btn-green {
+  @apply btn bg-green-500 text-purple-900
+}
+
+.card-white {
+  @apply rounded-lg bg-white shadow-md py-8 px-4
+}
+
+.input-gray {
+  @apply bg-gray-100 rounded-xl font-light py-1.5 px-5 my-2
+  
 }

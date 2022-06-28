@@ -1,12 +1,18 @@
 import LandingPage from './pages/LandingPage';
-// import MainPage from './pages/MainPage';
-// Add Routing
+import AccountPortal from './pages/AccountPortal';
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+
 
 function App() {
   return (
-    <div>
-      <LandingPage/>
-    </div>
+    <BrowserRouter>
+      <div>
+        <Routes>
+          <Route exact path="/" element={<LandingPage />} />
+          <Route path="/portal/:type"element={<AccountPortal />}/>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
