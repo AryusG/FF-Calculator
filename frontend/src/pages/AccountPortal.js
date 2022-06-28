@@ -8,7 +8,7 @@ function AccountPortal() {
   const { type } = useParams();
 
   return (
-    <div>
+    <div className="z-1">
       <Link to="/">
         <div className="font-ubuntu font-bold text-white text-xl py-2 px-6 
           top-8 left-12 bg-purple-500 absolute cursor-pointer">
@@ -19,7 +19,7 @@ function AccountPortal() {
       </Link>
 
       <div className="sm:grid grid-cols-2 bg-purple-900 min-h-screen text-center
-        py-36">
+        py-36 overflow-hidden">
         <div className="lg:pl-52 md:pl-20 sm:pl-10 px-4 relative">
           <div className="font-ubuntu text-white font-bold text-5xl py-7">
             <div className="">
@@ -33,15 +33,17 @@ function AccountPortal() {
           <div className="font-ubuntu font-regular text-lg text-white">
             Whilst having fun and socialising with other players at the same time!
           </div>
-          {/* <img src={LakeLand} alt="LakeLand" className="absolute"/> */}
-        </div>
 
-        
-        <div>
+          <img src={LakeLand} alt="LakeLand" className="sm:absolute  
+          lg:left-68 md:left-36 md:max-w-2xl sm:max-w-lg sm:left-28 sm:mt-6  
+          max-w-md px-4 sm:block hidden"/>
+        </div>
+        <div className="mt-12 z-10">
           {/* Add Error Page */}
           {type === "signup" ? <SignUpCard /> : 
             type === "login" ? <LoginCard /> : 'Insert Error Page'}
         </div>
+        <img src={LakeLand} alt="LakeLand" className="mx-4 sm:hidden mt-4" />
       </div>
     </div>
   )

@@ -38,12 +38,12 @@ function SignUpCard() {
             <div className="content-center sm:mr-4 mr-2">
               <input type="checkbox"/>
             </div>
-            <p className="text-sm">
+            <p className="text-sm cursor-pointer hover:underline">
               I agree to FF-Land's Privacy Policy
             </p>
           </div> 
           <div>
-            <button className="btn-pink w-full">Register</button>
+            <button className="btn-pink w-full mt-1">Register</button>
           </div>
         </form>
         <div className="px-7 ">
