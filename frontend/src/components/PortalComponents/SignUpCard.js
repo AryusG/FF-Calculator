@@ -14,9 +14,8 @@ import { MAX_VALUE_MILLIS } from '@firebase/util';
   
   
   async function registerEmail(user) {
-    const newUser = user;
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, newUser.email, newUser.password);
+      const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
       console.log(userCredential)
       if (!userCredential) throw "User already exists"
     }
