@@ -13,7 +13,7 @@ app.use(cors());
 app.get("/api/get", async(req, res) => {
 
     try {
-        const email = req.body.email.replace(/[.]/, ",");
+        const email = req.body.email.replace(/[.]/g, ",");
         const map = doc(db, `/maps/user_maps`);
         const all_users = (await getDoc(map)).data();
 
