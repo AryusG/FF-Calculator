@@ -40,7 +40,7 @@ function Hero() {
         <img
           src={twoStoryCozy}
           alt="two-story-cozy"
-          className="object-cover h-100"
+          className=""
         />
       </div>
     </div>

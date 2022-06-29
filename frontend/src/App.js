@@ -9,7 +9,7 @@ function App() {
       <div>
         <Routes>
           <Route exact path="/" element={<LandingPage />} />
-          <Route path="/portal/:type"element={<AccountPortal />}/>
+          <Route path="/portal/:type" element={<AccountPortal />}/>
         </Routes>
       </div>
     </BrowserRouter>
