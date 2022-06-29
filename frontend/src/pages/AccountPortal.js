@@ -38,7 +38,7 @@ function AccountPortal() {
           lg:left-68 md:left-36 md:max-w-2xl sm:max-w-lg sm:left-28 sm:mt-6  
           max-w-md px-4 sm:block hidden"/>
         </div>
-        <div className="z-10">
+        <div className="sm:mt-0 mt-16 z-10">
           {/* Add Error Page */}
           {type === "signup" ? <SignUpCard /> : 
             type === "login" ? <div className="mt-3"><LoginCard /></div>: 
