@@ -34,8 +34,6 @@ function SignUpCard() {
     reEnteredPass: "",
   });
 
-  // const [reEnteredPass, setReEnteredPass] = useState("");
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(user)
