@@ -41,7 +41,7 @@ function AccountPortal() {
         <div className="sm:mt-0 mt-16 z-10">
           {/* Add Error Page */}
           {type === "signup" ? <SignUpCard /> : 
-            type === "login" ? <div className="mt-3"><LoginCard /></div>: 
+            type === "login" ? <LoginCard />: 
             'Insert Error Page'}
         </div>
         <img src={LakeLand} alt="LakeLand" className="mx-4 sm:hidden mt-4" />
