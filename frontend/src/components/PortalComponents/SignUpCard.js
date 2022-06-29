@@ -31,14 +31,19 @@ function SignUpCard() {
   const [user, setUser] = useState({
     email: "",
     password: "",
+    reEnteredPass: "",
   });
 
-  const [reEnteredPass, setReEnteredPass] = useState("");
+  // const [reEnteredPass, setReEnteredPass] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(user);
-    console.log(reEnteredPass);
+    console.log(user)
+    // Need to check if email input is a legit email
+    if (user.password !== user.reEnteredPass) {
+      // Implement 
+    }
+    registerEmail(user);
   };
 
   return (
@@ -76,8 +81,8 @@ function SignUpCard() {
               placeholder="Re-enter Password *"
               className="peer input-gray w-full"
               required
-              value={reEnteredPass}
-              onChange={(e) => setReEnteredPass(e.target.value)}
+              value={user.reEnteredPass}
+              onChange={(e) => setUser({...user, reEnteredPass: e.target.value})}
             />
             <label className="absolute floating-label">Re-enter Password</label>
           </div>
