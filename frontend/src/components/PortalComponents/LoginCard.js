@@ -1,8 +1,15 @@
-import React from 'react';
+import React from 'react'
 import { Link } from 'react-router-dom';
 import GooglePng from '../../assets/sign-in-svgs/Google.png';
+import {app, auth} from "../../firebase-config/firebase-config";
+import { onAuthStateChanged, signInWithEmailAndPassword, 
+        GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword} from "firebase/auth";
+
 
 function LoginCard() {
+  async function logInEmailPass() {
+    
+  }
   return (
     <div className="flex card-white font-ubuntu sm:ml-4 sm:mr-10 mx-16 px-8
       max-w-sm">
