@@ -1,8 +1,36 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import GooglePng from '../../assets/sign-in-svgs/Google.png'
+import React, { useState } from 'react'
+import { onAuthStateChanged, signInWithEmailAndPassword, 
+        GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword} from "firebase/auth";
+import {auth} from "../../firebase-config/firebase-config"
+import { MAX_VALUE_MILLIS } from '@firebase/util';
 
 function SignUpCard() {
+  async function registerWithGoogle(user) {
+  }
+  
+  async function registerEmail(user) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
+      console.log(userCredential)
+      if (!userCredential) throw "User already exists"
+    }
+    catch (err){
+      console.log(err);
+    }
+  }
+
+  const [user, setUser] = useState({
+    email: "",
+    password: ""
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+  }
+
   return (
     <div className="flex card-white font-ubuntu sm:ml-4 sm:mr-10 mx-16 px-8
       max-w-sm">
@@ -12,27 +40,32 @@ function SignUpCard() {
             Get Started
           </div>
         </div>
-        <form className="flex-col pb-4 pt-7 px-7 ">
+        <form className="flex-col pb-4 pt-7 px-7" onSubmit={handleSubmit}>
           <div id="signup-form-1" className="relative">
-            <input placeholder="Email *" className="peer input-gray w-full
-              "/>
-            <label className="absolute floating-label">
-              Email
-            </label>
+            <input 
+              placeholder="Email *" 
+              className="peer input-gray w-full" 
+              required 
+              value={user.email}
+              onChange={(e) => setUser({...user, email: e.target.value})} 
+              />
+            <label className="absolute floating-label">Email</label>
           </div>
           <div id="signup-form-2" className="relative">
-            <input placeholder="Password *" className="peer input-gray w-full 
-              "/>
+            <input 
+              placeholder="Password *" 
+              className="peer input-gray w-full"
+              required
+              value={user.password}
+              onChange={(e) => setUser({...user, password: e.target.value})}
+            />
             <label className="absolute floating-label">
               Password
             </label>
           </div>
           <div id="signup-form-3" className="relative">
-            <input placeholder="Re-enter Password *" className="peer input-gray w-full 
-              "/>
-            <label className="absolute floating-label">
-              Re-enter Password
-            </label>
+            <input placeholder="Re-enter Password *" className="peer input-gray w-full"/>
+            <label className="absolute floating-label">Re-enter Password</label>
           </div>
           <div className="flex mx-8 pt-2 pb-5 justify-center">
             <div className="content-center sm:mr-4 mr-2">
@@ -43,7 +76,9 @@ function SignUpCard() {
             </p>
           </div> 
           <div>
-            <button className="btn-pink w-full mt-1">Register</button>
+            <button 
+              type="submit"
+              className="btn-pink w-full mt-1">Register</button>
           </div>
         </form>
         <div className="px-7 ">
