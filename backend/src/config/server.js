@@ -39,8 +39,7 @@ app.post("/api/post", async(req, res) => {
 
         if (!newUser) throw "Error: could not create user";
 
-        const userData = getDoc(doc(db, (await newUser).path));
-
+        const userData = getDoc(newUser);
         const id = (await userData).id;
         const email = req.body.email.replace(/[.]/g, ",");
 
