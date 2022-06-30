@@ -46,7 +46,7 @@ app.post("/api/post", async(req, res) => {
         // SET the map in the db <email, id>
         updateDoc(doc(db, "maps/user_maps"), {
             [email]: id
-        })
+        });
 
         res.status(200).json((await userData).data())
     }
