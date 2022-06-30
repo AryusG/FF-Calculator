@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import GooglePng from "../../assets/sign-in-svgs/Google.png";
 import { app, auth } from "../../firebase-config/firebase-config";
@@ -9,9 +9,30 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+// import { UserMetadata } from "firebase-admin/lib/auth/user-record";
+// ^ double check this file path because it 'module not found'
 
 function LoginCard() {
+
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  })
+
+  const handleInputChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value
+    })
+  }
+
   async function logInEmailPass() {}
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(user)
+    // Implement This 
+  }
 
   return (
     <div
@@ -23,15 +44,26 @@ function LoginCard() {
           <div className="text-3xl font-medium px-7">Log In</div>
         </div>
 
-        <form className="flex-col pb-4 pt-7 px-7 ">
+        <form className="flex-col pb-4 pt-7 px-7" onSubmit={handleSubmit}>
           <div id="login-form-1" className="relative">
-            <input placeholder="Email *" className="peer input-gray w-full" />
+            <input
+              placeholder="Email"
+              className="peer input-gray w-full"
+              required
+              name="email"
+              value={user.email}
+              onChange={handleInputChange}
+            />
             <label className="absolute floating-label">Email</label>
           </div>
           <div id="login-form-2" className="relative">
             <input
-              placeholder="Password *"
+              placeholder="Password"
               className="peer input-gray w-full"
+              required
+              name="password"
+              value={user.password}
+              onChange={handleInputChange}
             />
             <label className="absolute floating-label">Password</label>
           </div>
@@ -44,7 +76,7 @@ function LoginCard() {
             </p>
           </div>
           <div>
-            <button className="btn-pink w-full mt-1">Log In</button>
+            <button className="btn-pink w-full mt-1" type="submit">Log In</button>
           </div>
         </form>
 

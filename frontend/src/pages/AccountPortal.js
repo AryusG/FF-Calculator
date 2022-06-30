@@ -8,7 +8,7 @@ function AccountPortal() {
   const { type } = useParams();
 
   return (
-    <div className="z-1">
+    <div className="">
       <Link to="/">
         <div className="font-ubuntu font-bold text-white text-xl py-2 px-6 
           top-8 left-12 bg-purple-500 absolute cursor-pointer">
