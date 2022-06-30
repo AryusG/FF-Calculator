@@ -14,36 +14,35 @@ import { MAX_VALUE_MILLIS } from "@firebase/util";
 function SignUpCard() {
   async function registerWithGoogle(user) {}
 
-  async function registerEmail(user) {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        user.email,
-        user.password
-      );
-      console.log(userCredential);
-      if (!userCredential) throw "User already exists";
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   const [user, setUser] = useState({
     email: "",
     password: "",
     reEnteredPass: "",
   });
 
-  // const [reEnteredPass, setReEnteredPass] = useState("");
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(user)
-    // Need to check if email input is a legit email
-    if (user.password !== user.reEnteredPass) {
-      // Implement 
+
+    async function registerEmail(user) {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          user.email,
+          user.password
+        );
+        console.log(userCredential);
+        if (!userCredential) throw "User already exists";
+      } catch (err) {
+        console.log(err);
+      }
     }
-    registerEmail(user);
+
+    // Need to check if email input is a legit email
+    if (user.password === user.reEnteredPass) {
+      console.log("passwords match");
+      registerEmail(user);
+    }
+    // Implement if passwords don't match with re-entered
   };
 
   return (
@@ -82,7 +81,9 @@ function SignUpCard() {
               className="peer input-gray w-full"
               required
               value={user.reEnteredPass}
-              onChange={(e) => setUser({...user, reEnteredPass: e.target.value})}
+              onChange={(e) =>
+                setUser({ ...user, reEnteredPass: e.target.value })
+              }
             />
             <label className="absolute floating-label">Re-enter Password</label>
           </div>
