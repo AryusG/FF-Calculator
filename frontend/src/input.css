@@ -26,7 +26,15 @@
 
 .input-gray {
   @apply bg-gray-100 rounded-xl font-light py-2.5 px-5 my-6
-  placeholder-transparent text-base 
+  placeholder-transparent 
+}
+
+.input-gray-select {
+  @apply bg-gray-100 rounded-xl font-light py-2.5 px-5 text-center my-6 appearance-none
+}
+
+.input-gray-display {
+  @apply bg-gray-100 rounded-xl font-light py-2.5 px-5 text-center my-3 
 }
 
 .floating-label {
