@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
+import { CalculatorContext } from "../../contexts/CalculatorContext";
 
 function Calculator() {
   // All in percentages, averageDivYield from last 9 years.
@@ -31,36 +32,16 @@ function Calculator() {
   ]);
 
   const [selectedEtfTicker, setSelectedEtfTicker] = useState(etfs[0].ticker);
-  const selectedEtf = etfs.find((etf) => {
-    return etf.ticker === selectedEtfTicker;
-  });
+  const selectedEtf = useMemo(() => {
+    return etfs.find(etf => etf.ticker === selectedEtfTicker)
+  }, [etfs, selectedEtfTicker]);
+  
+  const { calculatorStorage, setCalculatorStorage} = useContext(CalculatorContext);
 
-  const [calculatorStorage, setCalculatorStorage] = useState({
-    passiveIncomeGoal: "",
-    fromAge: "",
-    toAge: "",
-  });
-
-  const [totalInvestedGoal, setTotalInvestedGoal] = useState(0);
-  const [monthlyPayments, setMonthlyPayments] = useState(0);
-  const [dividendRate, setDividendRate] = useState(0.03);
-  const [growthRate, setGrowthRate] = useState(0.08);
-
-  const calculateTotalInvestmentGoal = () => {
-    const passiveIncomeGoal = parseInt(calculatorStorage.passiveIncomeGoal);
-    const investedGoal = Math.round(passiveIncomeGoal / dividendRate);
-    setTotalInvestedGoal(investedGoal);
-  };
-
-  const calculateMonthlyPayments = () => {
-    // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
-    // ^ Should be done before this function
-    const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
-    const numerator = totalInvestedGoal * (1 + growthRate / 12 - 1);
-    const denominator = Math.pow(1 + growthRate / 12, yearsToInvest * 12) - 1;
-    const monthlyPayments = numerator / denominator;
-    setMonthlyPayments(Math.round(monthlyPayments));
-  };
+  const [totalInvestedGoal, setTotalInvestedGoal] = useState();
+  const [monthlyPayments, setMonthlyPayments] = useState();
+  const [dividendRate, setDividendRate] = useState();
+  const [growthRate, setGrowthRate] = useState();
 
   useEffect(() => {
     setDividendRate(selectedEtf.averageDivYield / 100);
@@ -68,8 +49,18 @@ function Calculator() {
   }, [selectedEtf]);
 
   useEffect(() => {
+    const calculateMonthlyPayments = () => {
+      // Make sure calculatorStorage.toAge is larger than calculatorStorage.fromAge
+      // ^ Should be done before this function
+      const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
+      const numerator = totalInvestedGoal * (1 + growthRate / 12 - 1);
+      const denominator = Math.pow(1 + growthRate / 12, yearsToInvest * 12) - 1;
+      const monthlyPayments = numerator / denominator;
+      setMonthlyPayments(Math.round(monthlyPayments));
+    };
+
     calculateMonthlyPayments();
-  }, [totalInvestedGoal]);
+  }, [calculatorStorage.fromAge, calculatorStorage.toAge, growthRate, totalInvestedGoal]);
 
   const handleInputChange = (event) => {
     setCalculatorStorage({
@@ -80,31 +71,45 @@ function Calculator() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const calculateTotalInvestmentGoal = () => {
+      const passiveIncomeGoal = parseInt(calculatorStorage.passiveIncomeGoal);
+      const investedGoal = Math.round(passiveIncomeGoal / dividendRate);
+      setTotalInvestedGoal(investedGoal);
+    };
     // Handle error if text is not string
     // Add $ to the beginning of input field and make sure to clear it during submit
     // Add , for every 3 digits
     calculateTotalInvestmentGoal();
+
+    setCalculatorStorage({
+      ...calculatorStorage,
+      totalInvestedGoal: totalInvestedGoal,
+      monthlyPayments: monthlyPayments 
+    })
   };
 
   return (
-    <div className="card-white font-ubuntu max-w-sm">
-      <form onSubmit={handleSubmit} className="flex-col py-2 px-7">
+    <div className="card-white-calculator font-ubuntu max-w-md">
+      <form onSubmit={handleSubmit} className="flex flex-col py-2 px-7">
         <div className="text-xl font-medium mb-3">1. Passive Income Goal</div>
-        <div id="calculator-goal-input" className="relative">
-          <input
-            placeholder="$ / Per Year"
-            className="peer input-gray w-full"
-            name="passiveIncomeGoal"
-            required
-            value={calculatorStorage.passiveIncomeGoal}
-            onChange={handleInputChange}
-          />
-          <label className="absolute floating-label">$ / Per Year</label>
+        <div className="px-5">
+          <div id="calculator-goal-input" className="relative">
+            <input
+              placeholder="$ / Per Year"
+              className="peer input-gray w-full"
+              name="passiveIncomeGoal"
+              required
+              value={calculatorStorage.passiveIncomeGoal}
+              onChange={handleInputChange}
+            />
+            <label className="absolute floating-label">$ / Per Year</label>
+          </div>
         </div>
 
         <div className="text-xl font-medium mb-3">2. Start Investing ...</div>
 
-        <div className="flex flex-wrap justify-between">
+        <div className="flex flex-wrap justify-between px-5">
           <div id="calculator-from-age" className="relative">
             <input
               placeholder="From Age"
@@ -129,33 +134,45 @@ function Calculator() {
           </div>
         </div>
 
-        <div className="text-xl font-medium mb-2.5">
-          3. Choose ETF to Invest In
-        </div>
+          <div className="text-xl font-medium mb-2.5">
+            3. Choose An ETF to Invest In
+          </div>
 
-        <div className="">
+        <div className="flex justify-between relative px-5">
           <select
-            className="input-gray-select w-[105px]"
+            className="input-gray-select min-w-[105px]"
             value={selectedEtfTicker}
             onChange={(e) => setSelectedEtfTicker(e.target.value)}
           >
             {etfs.map((etf) => {
-              return <option value={etf.ticker}>{etf.ticker}</option>;
+              return <option key={etf.ticker} value={etf.ticker}>{etf.ticker}</option>;
             })}
           </select>
+          <div className="absolute top-9 left-[93px] pointer-events-none">
+            <ion-icon name="chevron-down-outline"></ion-icon>
+          </div>
+          <div className="text-center self-center text-md ml-4">
+            {selectedEtf.name}
+          </div>
+        </div>
+
+        <div className="divide-line self-center"></div>
+
+        <div className="flex justify-between items-center">
+          <div className="text-sm">
+            2012-2021 Dividend Rate Average Per Year
+          </div>
+          <div className="input-gray-display min-w-[100px] ml-1">{`${selectedEtf.averageDivYield}%`}</div>
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="text-sm m-1">2012-2021 Dividend Rate Average Per Year</div>
-          <div className="input-gray-display w-[100px]">{`${selectedEtf.averageDivYield}%`}</div>
+          <div className="text-sm">5-Year Trailing Return</div>
+          <div className="input-gray-display min-w-[100px] ml-1">{`${selectedEtf.fiveYearTrailingReturn}%`}</div>
         </div>
 
-        <div className="flex justify-between items-center">
-          <div className="text-sm m-1">5-Year Trailing Return</div>
-          <div className="input-gray-display w-[100px]">{`${selectedEtf.fiveYearTrailingReturn}%`}</div>
-        </div>
+        <div className="divide-line self-center"></div>
 
-        <button className="btn-pink" type="submit">
+        <button className="btn-pink mt-3" type="submit">
           Calculate
         </button>
       </form>
