@@ -12,13 +12,14 @@ function App() {
     toAge: "",
     totalInvestedGoal: "",
     monthlyPayments: "",
+    selectedEtf: {},
   });
 
   const calculatorContextProvider = useMemo(
     () => ({ calculatorStorage, setCalculatorStorage }),
     [calculatorStorage]
   );
-  console.log(calculatorStorage)
+  
   return (
     <BrowserRouter>
       <CalculatorContext.Provider

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useContext } from "react";
+import React, { useState, useEffect, useMemo, useContext, useRef } from "react";
 import { CalculatorContext } from "../../contexts/CalculatorContext";
 
 function Calculator() {
@@ -40,6 +40,11 @@ function Calculator() {
 
   const [totalInvestedGoal, setTotalInvestedGoal] = useState();
   const [monthlyPayments, setMonthlyPayments] = useState();
+  const totalInvestedGoalRef = useRef()
+  const monthlyPaymentsRef = useRef()
+  totalInvestedGoalRef.current = totalInvestedGoal
+  monthlyPaymentsRef.current = monthlyPayments
+
   const [dividendRate, setDividendRate] = useState();
   const [growthRate, setGrowthRate] = useState();
 
@@ -84,10 +89,12 @@ function Calculator() {
 
     setCalculatorStorage({
       ...calculatorStorage,
-      totalInvestedGoal: totalInvestedGoal,
-      monthlyPayments: monthlyPayments 
+      selectedEtf: selectedEtf,
+      totalInvestedGoal: totalInvestedGoalRef.current,
+      monthlyPayments: monthlyPaymentsRef.current 
     })
   };
+
 
   return (
     <div className="card-white-calculator font-ubuntu max-w-md">
