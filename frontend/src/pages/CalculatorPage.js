@@ -22,7 +22,7 @@ function CalculatorPage() {
       <div className="sm:grid grid-cols-2">
 
         <div
-          className="font-ubuntu text-4xl font-bold text-white text-center
+          className="font-ubuntu text-5xl font-bold text-white text-center
           col-span-2 mb-6"
         >
           <span>Let's </span>
