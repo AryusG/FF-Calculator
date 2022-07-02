@@ -79,9 +79,9 @@ function Calculator() {
 
     setCalculatorStorage({
       ...calculatorStorage,
-      selectedEtf: selectedEtf,
       totalInvestedGoal: totalInvestedGoal,
       monthlyPayments: monthlyPayments,
+      selectedEtf: selectedEtf
     });
   };
 
@@ -172,7 +172,7 @@ function Calculator() {
 
         <div className="divide-line self-center"></div>
 
-        <button className="btn-pink mt-3" type="submit">
+        <button className="btn-pink mt-3 w-4/5 self-center" type="submit">
           Calculate
         </button>
       </form>

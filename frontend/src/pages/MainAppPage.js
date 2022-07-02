@@ -1,8 +1,4 @@
 import React from 'react'
-import Avatar from '../components/Land'
-import ProgressBar from '../components/ProgressBar'
-import Calculator from '../components/Calculator'
-import LandingPage from './LandingPage'
 
 function MainPage() {
   return (
