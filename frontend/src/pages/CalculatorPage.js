@@ -61,7 +61,7 @@ function CalculatorPage() {
               >
                 Reset
               </button>
-              <Link to="/app">
+              <Link to="/application">
                 <button className="btn-green text-lg">Play Now</button>
               </Link>
             </div>
@@ -73,7 +73,6 @@ function CalculatorPage() {
           </div>
         </div>
 
-        {/* <img src={VillaCozy} alt="VillaCozy" className="mx-4 sm:hidden mt-4" /> */}
       </div>
     </div>
   );
