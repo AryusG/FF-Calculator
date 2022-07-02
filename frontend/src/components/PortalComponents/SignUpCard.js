@@ -24,7 +24,7 @@ function SignUpCard() {
   const [isAuth, setAuth] = useState(false);
 
 
-  async function registerGoogle(user) {
+  async function registerGoogle() {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
@@ -154,7 +154,7 @@ function SignUpCard() {
     </div>
   ) : 
   (
-    navigate("../pages/MainAppPage")
+    navigate("/application")
   );
 }
 

@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  onAuthStateChanged
 } from "firebase/auth";
 // import { UserMetadata } from "firebase-admin/lib/auth/user-record";
 // ^ double check this file path because it 'module not found'
@@ -23,7 +24,7 @@ function LoginCard() {
 
   async function logInEmailPass(user) {
     try {
-      await signInWithEmailAndPassword(auth, user.email, user.password);
+      const result = await signInWithEmailAndPassword(auth, user.email, user.password);
       setAuth(true);
     }
     catch (err){
@@ -37,9 +38,9 @@ function LoginCard() {
     try {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
-        
-      if (credential)
+      if (credential) {
         setAuth(true);
+      }
     }
     catch (err) {
       console.log(err);
@@ -117,7 +118,7 @@ function LoginCard() {
       </div>
     </div>
   ) : (
-    navigate("../pages/MainAppPage")
+    navigate("/application")
   );
 }
 
