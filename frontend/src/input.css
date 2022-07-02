@@ -17,11 +17,16 @@
 }
 
 .btn-green {
-  @apply btn bg-green-500 text-purple-900
+  @apply btn bg-green-300 text-purple-900
 }
 
 .card-white {
   @apply rounded-lg bg-white shadow-md py-8 px-4
+}
+
+.card-white-calculator {
+  @apply rounded-lg bg-white shadow-md py-8 px-4
+
 }
 
 .input-gray {
@@ -30,7 +35,8 @@
 }
 
 .input-gray-select {
-  @apply bg-gray-100 rounded-xl font-light py-2.5 px-5 text-center my-6 appearance-none
+  @apply bg-gray-100 rounded-xl font-light py-2.5 pl-7 my-6 appearance-none
+  w-[110px] px-1
 }
 
 .input-gray-display {
@@ -44,4 +50,8 @@
   peer-placeholder-shown:text-gray-400 
   peer-focus:left-5 peer-focus:-top-1 peer-focus:text-gray-600
   peer-focus:text-base 
+}
+
+.divide-line {
+  @apply bg-slate-200 w-4/5 h-[1px] my-2.5 
 }
