@@ -28,7 +28,7 @@ function App() {
           <Route exact path="/" element={<LandingPage />} />
           <Route path="/portal/:type" element={<AccountPortal />} />
           <Route path="/calculator" element={<CalculatorPage />} />
-          <Route path="/app" element={<MainAppPage />} />
+          <Route path="/application" element={<MainAppPage />} />
         </Routes>
       </CalculatorContext.Provider>
     </BrowserRouter>

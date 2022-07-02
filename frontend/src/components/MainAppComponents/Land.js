@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Avatar() {
+function Land() {
   return (
     // Add link to photos
     <div className='bg-gray-100/20 flex justify-center'>
@@ -9,4 +9,4 @@ function Avatar() {
   )
 }
 
-export default Avatar
+export default Land 

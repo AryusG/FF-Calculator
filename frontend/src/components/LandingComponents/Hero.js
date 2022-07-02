@@ -21,7 +21,7 @@ function Hero() {
             Financial Freedom
           </div>
         </h1>
-        <div className="font-ubuntu font-regular text-base text-white pb-8">
+        <div className="font-ubuntu font-regular text-base text-white lg:pb-8 pb-10">
           Connected to our partnered stock brokerages, dollar cost average the
           S&P 500 and earn in-game items to customize your digital haven.
         </div>
@@ -29,18 +29,18 @@ function Hero() {
           <Link to="portal/signup">
             <button className="btn-pink ">Sign Up</button>
           </Link>
-          <div className="lg:hidden block ">
-            <Link to="portal/login">
-              <button className="btn-white">Log In</button>
+          <div className="">
+            <Link to="/calculator">
+              <button className="btn-white">Try for Free</button>
             </Link>
           </div>
         </div>
       </div>
-      <div className="sm:my-40">
+      <div className="sm:my-40 overflow-x-clip">
         <img
           src={twoStoryCozy}
           alt="two-story-cozy"
-          className=""
+          className="xl:scale-110 md:scale-125 scale-110"
         />
       </div>
     </div>

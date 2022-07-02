@@ -1,12 +1,12 @@
 import React from 'react'
+import MainAppNavBar from '../components/MainAppComponents/MainAppNavBar'
 
-function MainPage() {
+function MainAppPage() {
   return (
-    <div className='grid grid-cols-5 lg:grid-cols-2 
-      bg-purple-900 h-screen'>
-    
+    <div className='bg-purple-900 h-screen'>
+      <MainAppNavBar />
     </div>
   )
 }
 
-export default MainPage
+export default MainAppPage
