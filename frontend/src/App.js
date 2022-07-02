@@ -10,8 +10,8 @@ function App() {
     passiveIncomeGoal: "",
     fromAge: "",
     toAge: "",
-    totalInvestedGoal: "",
-    monthlyPayments: "",
+    totalInvestedGoal: 0,
+    monthlyPayments: 0,
     selectedEtf: {},
   });
 

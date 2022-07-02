@@ -55,7 +55,7 @@ function Calculator() {
     const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
     const numerator = totalInvestedGoal * (1 + etfGrowthRate / 12 - 1);
     const denominator = Math.pow(1 + etfGrowthRate / 12, yearsToInvest * 12) - 1;
-    return Math.round(numerator / denominator);
+    return (numerator / denominator).toFixed(2);
   }, [
     calculatorStorage.toAge,
     calculatorStorage.fromAge,
