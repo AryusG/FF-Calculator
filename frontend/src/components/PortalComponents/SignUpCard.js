@@ -9,7 +9,6 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 
-
 function SignUpCard() {
 
   const navigate = useNavigate();

@@ -1,10 +1,11 @@
 import React from 'react'
+import BasicHouse from '../../assets/houses/basic-house.png'
 
 function Land() {
   return (
     // Add link to photos
-    <div className='bg-gray-100/20 flex justify-center'>
-      Land 
+    <div className=''>
+      <img src={BasicHouse} alt="BasicHouse"/>
     </div>
   )
 }

@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom'
 
 function MainAppNavBar() {
   let Links = [
-    { name: "Home", url: "/" },
-    { name: "Pricing", url: "/pricing" },
-    { name: "Support", url: "/support" },
+    { name: "Profile", url: "/application/profile" },
+    { name: "Inventory", url: "/application/inventory" },
+    { name: "Shop", url: "/application/shop" },
+    { name: "Social", url: "/application/social" },
+    { name: "Settings", url: "/application/settings" },
   ];
 
   const [hamburgerOpen, setHamburgerOpen] = useState(false); 
@@ -64,13 +66,13 @@ function MainAppNavBar() {
           })}
           <div className="lg:hidden block">
             <span className="mr-4">
-              <Link to="portal/login">
-                <button className="btn-white">Log In</button>
+              <Link to="portal/calculator">
+                <button className="btn-white">Re-Calculate</button>
               </Link>
             </span>
             <span>
-              <Link to="portal/signup">
-                <button className="btn-pink">Sign Up</button>
+              <Link to="/">
+                <button className="btn-pink">Sign Out</button>
               </Link>
             </span>
           </div>

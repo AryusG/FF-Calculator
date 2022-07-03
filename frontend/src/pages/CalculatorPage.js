@@ -10,7 +10,7 @@ function CalculatorPage() {
     useContext(CalculatorContext);
 
   return (
-    <div className="bg-purple-900 min-h-screen sm:py-28 pt-28 pb-96">
+    <div className="bg-purple-900 min-h-screen sm:py-24 pt-28 pb-96">
       <Link to="/">
         <div
           className="font-ubuntu font-bold text-white text-2xl py-2 px-6 
@@ -25,7 +25,7 @@ function CalculatorPage() {
       <div className="sm:grid sm:grid-cols-2">
         <div
           className="font-ubuntu text-5xl font-bold text-white text-center
-          col-span-2 sm:mb-14 sm:mt-0 mt-10 mb-16"
+          col-span-2 sm:mb-14 sm:mt-0 mt-8 mb-16"
         >
           <span>Let's </span>
           <span
@@ -66,7 +66,7 @@ function CalculatorPage() {
               </Link>
             </div>
             <img
-              className="absolute z-1 w-full sm:scale-150 scale-110 -bottom-72"
+              className="absolute z-1 w-full sm:scale-150 scale-110 -bottom-82"
               src={VillaCozy}
               alt="VillaCozy"
             />
