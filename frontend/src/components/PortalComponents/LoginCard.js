@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
+import { UserContext } from "../../contexts/UserContext";
 import { Link, useNavigate} from "react-router-dom";
 import GooglePng from "../../assets/sign-in-svgs/Google.png";
 import { auth } from "../../firebase-config/firebase-config";
@@ -7,8 +8,6 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-// import { UserMetadata } from "firebase-admin/lib/auth/user-record";
-// ^ double check this file path because it 'module not found'
 
 function LoginCard() {
 
@@ -21,9 +20,13 @@ function LoginCard() {
 
   const [isAuth, setAuth] = useState(false);
 
+  const currUserContext = useContext(UserContext);
+
+
   async function logInEmailPass(user) {
     try {
       await signInWithEmailAndPassword(auth, user.email, user.password);
+      currUserContext.setUser({...currUserContext.user, email: user.email});
       setAuth(true);
     }
     catch (err){
@@ -32,12 +35,15 @@ function LoginCard() {
     }
   }
 
-  async function registerGoogle(user) {
+
+  async function loginGoogle() {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
       if (credential) {
+        const email = result.user.email;
+        currUserContext.setUser({...currUserContext.user, email: email});
         setAuth(true);
       }
     }
@@ -99,7 +105,7 @@ function LoginCard() {
         </form>
 
         <div className="px-7 ">
-          <button onClick={()=> {registerGoogle(user)}}
+          <button onClick={()=> {loginGoogle(user)}}
             className="btn-white border border-pink inline-flex 
             justify-center items-center w-full px-7 mb-2"
           >
@@ -117,7 +123,7 @@ function LoginCard() {
       </div>
     </div>
   ) : (
-    navigate("/application")
+    navigate("/calculator")
   );
 }
 

@@ -1,13 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
-import GooglePng from "../../assets/sign-in-svgs/Google.png";
-import React, { useState } from "react";
-import validator from "validator"
-import {createUserWithEmailAndPassword} from "firebase/auth";
+import React, { useState, useContext} from "react";
+import { UserContext } from "../../contexts/UserContext";
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config/firebase-config";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+import { dbCreateUser, dbUserExists } from "../../ApiCalls/calls";
+import GooglePng from "../../assets/sign-in-svgs/Google.png";
+import validator from "validator";
 
 function SignUpCard() {
 
@@ -21,6 +22,8 @@ function SignUpCard() {
 
   const [isAuth, setAuth] = useState(false);
 
+  const currUserContext = useContext(UserContext);
+
 
   async function registerGoogle() {
     const provider = new GoogleAuthProvider();
@@ -28,27 +31,49 @@ function SignUpCard() {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
         
-      if (credential)
+      if (credential) {
+        const email = result.user.email;
+        // make a get request for the user, if the user already exists in database, alert user already exists, please log in
+        // userExists is returning as undefined??????
+        const userExists = await dbUserExists(email);
+        console.log(userExists)
+        if (typeof userExists === "string") {
+          navigate("/portal/login");
+          throw `User already exists with ${userExists} provider, please log in to FF Land!`;
+        }
+        // if userexists === "email" maybe update provider..
+
+        currUserContext.setUser({...currUserContext.user, email: email});
+        dbCreateUser(email, "Google");
         setAuth(true);
+      }
     }
     catch (err) {
       console.log(err);
+      alert(err);
     }
   }
 
 
   async function registerEmail(user) {
     try {
-      await createUserWithEmailAndPassword(
+      const userExists = await dbUserExists(user.email);
+      if (typeof userExists === "string") {
+        navigate("/portal/login");
+        throw `User already exists with ${userExists} provider, please log in to FF Land!`;
+      }
+      createUserWithEmailAndPassword(
       auth,
       user.email,
       user.password
       );
+      currUserContext.setUser({...currUserContext.user, email: user.email});
+      dbCreateUser(user.email, "Email");
       setAuth(true);
     } 
     catch (err) {
       console.log(err);
-      alert("Email already in use, log in to FF-Land!")
+      alert(err)
     }
   }
 
@@ -138,7 +163,7 @@ function SignUpCard() {
             justify-center items-center w-full px-7 mb-2"
           >
             <img src={GooglePng} alt="Google SVG" className="h-4 mr-3" />
-            <span>Log in with Google</span>
+            <span>Register with Google</span>
           </button>
           <div className="font-light text-sm">
             <Link to="/portal/login">
@@ -152,7 +177,7 @@ function SignUpCard() {
     </div>
   ) : 
   (
-    navigate("/application")
+    navigate("/calculator")
   );
 }
 
