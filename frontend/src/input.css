@@ -8,6 +8,11 @@
   active:scale-90 duration-300
 }
 
+.btn-progress-bar {
+  @apply font-ubuntu tracking-wide transition ease-in-out hover:scale-105 
+  active:scale-100 duration-300 
+}
+
 .btn-pink {
   @apply btn bg-pink text-white
 }
@@ -22,6 +27,10 @@
 
 .card-white {
   @apply rounded-lg bg-white shadow-md py-8 px-4
+}
+
+.card-white-progress-bar {
+  @apply rounded-3xl bg-white shadow-md py-5 px-8
 }
 
 .card-white-calculator {

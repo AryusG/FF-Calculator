@@ -79,8 +79,8 @@ function Calculator() {
 
     setCalculatorStorage({
       ...calculatorStorage,
-      totalInvestedGoal: totalInvestedGoal,
-      monthlyPayments: monthlyPayments,
+      totalInvestedGoal: parseInt(totalInvestedGoal),
+      monthlyPayments: parseInt(monthlyPayments),
       selectedEtf: selectedEtf
     });
   };

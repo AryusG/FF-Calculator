@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: "jit",
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
     "./components/**/*.{html,js}",
@@ -14,6 +15,7 @@ module.exports = {
         transparent: "transparent",
         current: "currentColor",
         pink: "#F20D60",
+        pink_light: "#FFF2F7",
         orange: "#FF3636",
         violet: "#8941FF",
         purple: {

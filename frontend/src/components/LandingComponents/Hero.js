@@ -6,7 +6,7 @@ import insideHouse from "../../assets/houses/inside-house.png";
 function Hero() {
   return (
     <div className="sm:grid grid-cols-2 h-auto">
-      <div className="md:ml-32 md:mr-1 sm:ml-20 sm:mr-1 my-6 mx-20">
+      <div className="md:ml-32 md:mr-1 sm:ml-20 sm:mr-1 my-12 mx-20">
         <img
           src={insideHouse}
           alt="inside-house"
