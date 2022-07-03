@@ -1,40 +1,58 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import GooglePng from "../../assets/sign-in-svgs/Google.png";
-import { app, auth } from "../../firebase-config/firebase-config";
+import { auth } from "../../firebase-config/firebase-config";
 import {
-  onAuthStateChanged,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  createUserWithEmailAndPassword,
 } from "firebase/auth";
 // import { UserMetadata } from "firebase-admin/lib/auth/user-record";
 // ^ double check this file path because it 'module not found'
 
 function LoginCard() {
 
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     email: "",
     password: "",
   })
 
-  const handleInputChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value
-    })
+  const [isAuth, setAuth] = useState(false);
+
+  async function logInEmailPass(user) {
+    try {
+      const result = await signInWithEmailAndPassword(auth, user.email, user.password);
+      setAuth(true);
+    }
+    catch (err){
+      console.log(err);
+      alert("Invalid email or password.");
+    }
   }
 
-  async function logInEmailPass() {}
+  async function registerGoogle(user) {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      if (credential) {
+        setAuth(true);
+      }
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(user)
-    // Implement This 
+    e.preventDefault();
+    logInEmailPass(user);
   }
 
-  return (
+  return !isAuth ? (
     <div
       className="flex card-white font-ubuntu sm:ml-4 sm:mr-10 mx-16 px-8
       max-w-sm"
@@ -44,7 +62,7 @@ function LoginCard() {
           <div className="text-3xl font-medium px-7">Log In</div>
         </div>
 
-        <form className="flex-col pb-4 pt-7 px-7" onSubmit={handleSubmit}>
+        <form className="flex-col pb-4 pt-7 px-7" onSubmit={(e)=> {handleSubmit(e)}}>
           <div id="login-form-1" className="relative">
             <input
               placeholder="Email"
@@ -52,7 +70,7 @@ function LoginCard() {
               required
               name="email"
               value={user.email}
-              onChange={handleInputChange}
+              onChange={(e) => {setUser({...user, email: e.target.value})}}
             />
             <label className="absolute floating-label">Email</label>
           </div>
@@ -63,7 +81,7 @@ function LoginCard() {
               required
               name="password"
               value={user.password}
-              onChange={handleInputChange}
+              onChange={(e) => {setUser({...user, password: e.target.value})}}
             />
             <label className="absolute floating-label">Password</label>
           </div>
@@ -81,7 +99,7 @@ function LoginCard() {
         </form>
 
         <div className="px-7 ">
-          <button
+          <button onClick={()=> {registerGoogle(user)}}
             className="btn-white border border-pink inline-flex 
             justify-center items-center w-full px-7 mb-2"
           >
@@ -98,6 +116,8 @@ function LoginCard() {
         </div>
       </div>
     </div>
+  ) : (
+    navigate("/application")
   );
 }
 
