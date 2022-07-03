@@ -23,7 +23,7 @@ function LoginCard() {
 
   async function logInEmailPass(user) {
     try {
-      const result = await signInWithEmailAndPassword(auth, user.email, user.password);
+      await signInWithEmailAndPassword(auth, user.email, user.password);
       setAuth(true);
     }
     catch (err){
