@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate} from "react-router-dom";
 import GooglePng from "../../assets/sign-in-svgs/Google.png";
-import { app, auth } from "../../firebase-config/firebase-config";
+import { auth } from "../../firebase-config/firebase-config";
 import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  onAuthStateChanged
 } from "firebase/auth";
 // import { UserMetadata } from "firebase-admin/lib/auth/user-record";
 // ^ double check this file path because it 'module not found'

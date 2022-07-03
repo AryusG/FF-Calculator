@@ -5,7 +5,6 @@ import validator from "validator"
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import { auth } from "../../firebase-config/firebase-config";
 import {
-  onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
