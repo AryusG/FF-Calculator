@@ -25,9 +25,9 @@ function App() {
     totalInvestedGoal: 0,
     monthlyPayments: 0,
     selectedEtf: {},
+    totalTotal: 0,
     totalSaved: 0,
     totalGained: 0,
-    totalTotal: 0,
   });
 
   const calculatorContextProvider = useMemo(
