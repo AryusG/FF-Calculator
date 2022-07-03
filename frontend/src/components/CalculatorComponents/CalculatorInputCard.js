@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useContext, useRef } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { CalculatorContext } from "../../contexts/CalculatorContext";
 
 function Calculator() {

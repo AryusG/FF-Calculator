@@ -6,7 +6,7 @@ import insideHouse from "../../assets/houses/inside-house.png";
 function Hero() {
   return (
     <div className="sm:grid grid-cols-2 h-auto">
-      <div className="md:ml-32 md:mr-1 sm:ml-20 sm:mr-1 my-10 mx-20">
+      <div className="md:ml-32 md:mr-1 sm:ml-20 sm:mr-1 my-6 mx-20">
         <img
           src={insideHouse}
           alt="inside-house"
@@ -24,16 +24,17 @@ function Hero() {
         <div className="font-ubuntu font-regular text-base text-white lg:pb-8 pb-10">
           Connected to our partnered stock brokerages, dollar cost average the
           S&P 500 and earn in-game items to customize your digital haven.
+          <br></br>
+          <br></br>
+          Get started now!
         </div>
         <div className="flex gap-8">
+          <Link to="/calculator">
+            <button className="btn-white">Try for Free</button>
+          </Link>
           <Link to="portal/signup">
             <button className="btn-pink ">Sign Up</button>
           </Link>
-          <div className="">
-            <Link to="/calculator">
-              <button className="btn-white">Try for Free</button>
-            </Link>
-          </div>
         </div>
       </div>
       <div className="sm:my-40 overflow-x-clip">
