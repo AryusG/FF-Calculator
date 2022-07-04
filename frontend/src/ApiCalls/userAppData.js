@@ -1,7 +1,7 @@
 export const newUserAppData = {
-    name_first: "", 
+    firstName: "", 
 
-    name_last: "",
+    lastName: "",
     
     email: "",
 
@@ -11,13 +11,13 @@ export const newUserAppData = {
     
     inventory: [],
 
-    friends_list: [],
+    friendsList: [],
 
     settings: {
         background_state: 0
     },
     
-    calculator_config: {
+    calculatorStorage: {
         passiveIncomeGoal: "",
         fromAge: "",
         toAge: "",

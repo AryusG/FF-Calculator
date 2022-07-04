@@ -1,29 +1,31 @@
 export const newUserAppData = {
-    name_first: "", 
+  firstName: "", 
 
-    name_last: "",
-    
-    email: "",
+  lastName: "",
+  
+  email: "",
 
-    currency: 0,
-    
-    inventory: [],
+  provider: "",
 
-    friends_list: [],
+  currency: 0,
+  
+  inventory: [],
 
-    settings: {
-        background_state: 0
-    },
-    
-    calculator_config: {
-        passiveIncomeGoal: "",
-        fromAge: "",
-        toAge: "",
-        totalInvestedGoal: 0,
-        monthlyPayments: 0,
-        selectedEtf: {},
-        totalSaved: 0,
-        totalGained: 0,
-        totalTotal: 0,
-    }
+  friendsList: [],
+
+  settings: {
+      background_state: 0
+  },
+  
+  calculatorStorage: {
+      passiveIncomeGoal: "",
+      fromAge: "",
+      toAge: "",
+      totalInvestedGoal: 0,
+      monthlyPayments: 0,
+      selectedEtf: {},
+      totalSaved: 0,
+      totalGained: 0,
+      totalTotal: 0,
+  }
 }

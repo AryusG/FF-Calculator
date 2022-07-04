@@ -12,6 +12,7 @@ async function dbCreateUser(email, provider) {
       provider: provider
     });
     console.log(res);
+    console.log("user created successfully");
   }
 
   catch(err) {
@@ -28,7 +29,7 @@ async function dbGetUser(email) {
       }
     });
     console.log(res);
-    return JSON.parse(res);
+    return res.data;
   }
 
   catch (err) {
@@ -45,14 +46,32 @@ async function dbUserExists(email) {
       }
     });
 
-    return res.status === 200 ? res.data.provider : false;
+    return res.data.provider;
   }
     
   catch (err) {
-      console.log(err);
+    console.log(err);
+    return false;
   }
 }
 
 
+async function dbUpdateUserProperty(email, name, value) {
+  // Name of the property to update, new value of the property being updated
+  try {
+    console.log(value)
+    const res = await api.put("/dbUpdate", {
+      email: email,
+      name: name,
+      value: value
+    });
+    console.log(res);
+  }
 
-export {dbCreateUser, dbGetUser, dbUserExists};
+  catch (err) {
+    console.log(err)
+  }
+}
+
+
+export {dbCreateUser, dbGetUser, dbUserExists, dbUpdateUserProperty};

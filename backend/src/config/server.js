@@ -17,9 +17,9 @@ app.get("/api/dbGetUser", async(req, res) => {
     const email = req.query.email.replace(/[.]/g, ",");
 
     // Grab map from db and id associated with users email
-    const map = doc(db, `/maps/user_maps`);
-    const all_users = (await getDoc(map)).data();
-    const id = all_users[email];
+    const map = doc(db, "/maps/user_maps");
+    const allUsers = (await getDoc(map)).data();
+    const id = allUsers[email];
 
     if (!id) throw "User does not exist";
 
@@ -31,7 +31,7 @@ app.get("/api/dbGetUser", async(req, res) => {
   }
 
   catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(400).send(err);
   }
 });
@@ -61,12 +61,35 @@ app.post("/api/dbCreateUser", async(req, res) => {
     res.status(200).json(userData.data())
   }
   catch (err){
+    console.log(err);
     res.status(400).send(err);
   } 
 });
 // overwriting an entire document - setDoc()
 // updating specific fields of a document - updateDoc()
-app.put("/api/put", async(req, res) => {
+app.put("/api/dbUpdate", async(req, res) => {
+  try {
+    const email = req.body.email.replace(/[.]/g, ",");
+    const updatedPropertyName = req.body.name;
+    const updatedPropertyValue = req.body.value;
+
+    const map = doc(db, "/maps/user_maps");
+    const allUsers = (await getDoc(map)).data();
+    const id = allUsers[email];
+
+    if (!id) throw "User does not exist";
+
+    const userDocRef = doc(db, `user_app_data/${id}`);
+    updateDoc(userDocRef, {
+      [updatedPropertyName]: updatedPropertyValue
+    })
+    res.status(200).send('updated successfully');
+  }
+
+  catch (err){
+    console.log(err);
+    res.status(400).send(err);
+  }
 });
 
 app.delete("/api/delete", (req, res) => {
