@@ -19,6 +19,7 @@ async function dbCreateUser(email, provider) {
   }
 }
 
+
 async function dbGetUser(email) {
   try {
     const res = await api.get("/dbGetUser", {
@@ -34,6 +35,7 @@ async function dbGetUser(email) {
     console.log(err);
   }
 }
+
 
 async function dbUserExists(email) {
   try {

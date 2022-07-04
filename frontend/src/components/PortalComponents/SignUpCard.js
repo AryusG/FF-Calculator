@@ -98,6 +98,7 @@ function SignUpCard() {
 
     registerEmail(user);
   };
+  
 
   return !isAuth ? (
     <div
