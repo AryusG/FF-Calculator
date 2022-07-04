@@ -41,7 +41,7 @@ function SignUpCard() {
           navigate("/portal/login");
           throw `User already exists with ${userExists} provider, please log in to FF Land!`;
         }
-        // if userexists === "email" maybe update provider..
+        // if userexists === "email" update provider to google
 
         currUserContext.setUser({...currUserContext.user, email: email});
         dbCreateUser(email, "Google");
@@ -98,7 +98,7 @@ function SignUpCard() {
 
     registerEmail(user);
   };
-  
+
 
   return !isAuth ? (
     <div
