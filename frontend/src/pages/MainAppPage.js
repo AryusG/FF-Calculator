@@ -55,7 +55,7 @@ function MainAppPage() {
               </div>
               <div
                 className="card-white-progress-bar font-ubuntu font-medium text-xl 
-                flex justify-around items-center gap-6 absolute -bottom-28"
+                flex justify-around items-center gap-6 absolute sm:-bottom-28"
               >
                 <div className="">Saved:</div>
                 <div className="bg-pink_light text-pink py-2 px-6 rounded-3xl">
