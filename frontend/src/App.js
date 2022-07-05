@@ -8,15 +8,15 @@ import MainAppPage from "./pages/MainAppPage";
 import CalculatorPage from "./pages/CalculatorPage";
 
 function App() {
-  const [user, setUser] = useState({
+  const [globalUser, setGlobalUser] = useState({
     firstName: "",
     lastName: "",
     email: "",
   });
 
   const userContextProvider = useMemo(() => {
-    return { user, setUser };
-  }, [user]);
+    return { globalUser, setGlobalUser };
+  }, [globalUser]);
 
   const [calculatorStorage, setCalculatorStorage] = useState({
     passiveIncomeGoal: "",
