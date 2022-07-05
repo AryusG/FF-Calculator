@@ -1,11 +1,16 @@
 import React, { useContext } from "react";
 import { CalculatorContext } from "../../contexts/CalculatorContext";
+import { UserContext } from "../../contexts/UserContext";
+import { dbUpdateUserProperty } from "../../ApiCalls/calls";
 
 function CalculatorResults() {
   const { calculatorStorage } = useContext(CalculatorContext);
+  const {globalUser, setGlobalUser} = useContext(UserContext);
 
   let monthlyPayments = parseInt(calculatorStorage.monthlyPayments)
   let totalInvestedGoal = parseInt(calculatorStorage.totalInvestedGoal)
+
+  dbUpdateUserProperty(globalUser.email, "calculatorStorage", calculatorStorage);
   
   return (
     <div className="card-white-calculator font-ubuntu max-w-md">

@@ -1,58 +1,81 @@
 import { Link, useNavigate } from "react-router-dom";
-import GooglePng from "../../assets/sign-in-svgs/Google.png";
-import React, { useState } from "react";
-import validator from "validator"
-import {createUserWithEmailAndPassword} from "firebase/auth";
+import React, { useState, useContext} from "react";
+import { UserContext } from "../../contexts/UserContext";
+import { CalculatorContext } from "../../contexts/CalculatorContext";
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config/firebase-config";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+import { dbCreateUser, dbUserExists } from "../../ApiCalls/calls";
+import GooglePng from "../../assets/sign-in-svgs/Google.png";
+import validator from "validator";
 
 function SignUpCard() {
 
   const navigate = useNavigate();
-
   const [user, setUser] = useState({
     email: "",
     password: "",
     reEnteredPass: "",
   });
-
   const [isAuth, setAuth] = useState(false);
-
-
-  async function registerGoogle() {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-        
-      if (credential)
-        setAuth(true);
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
-
+  const {globalUser, setGlobalUser} = useContext(UserContext);
+  const {currCalculatorStorage, setCalculatorStorage} = useContext(CalculatorContext)
+  
 
   async function registerEmail(user) {
     try {
-      await createUserWithEmailAndPassword(
-      auth,
-      user.email,
-      user.password
+      const userExists = await dbUserExists(user.email);
+      if (userExists) {
+        navigate("/portal/login");
+        throw `User already exists with ${userExists} provider, please log in to FF Land!`;
+      }
+
+      createUserWithEmailAndPassword(
+        auth,
+        user.email,
+        user.password
       );
+        
+      setGlobalUser({...globalUser, email: user.email});
+      dbCreateUser(user.email, "Email");
       setAuth(true);
-    } 
+    }
     catch (err) {
       console.log(err);
-      alert("Email already in use, log in to FF-Land!")
+      alert(err)
     }
   }
 
+  async function registerGoogle() {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+        
+      if (!credential)
+        throw "Error: could not connect to Google"
 
+      const email = result.user.email;
+      const userExists = await dbUserExists(email);
+
+      if (userExists) {
+        navigate("/portal/login");
+        throw `User already exists with ${userExists} provider, please log in to FF Land!`;
+      }
+
+      setGlobalUser({...globalUser, email: email});
+      dbCreateUser(email, "Google");
+      setAuth(true);
+    }
+    catch (err) {
+      console.log(err);
+      alert(err);
+    }
+  }
+    
+    
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -73,6 +96,7 @@ function SignUpCard() {
 
     registerEmail(user);
   };
+
 
   return !isAuth ? (
     <div
@@ -138,7 +162,7 @@ function SignUpCard() {
             justify-center items-center w-full px-7 mb-2"
           >
             <img src={GooglePng} alt="Google SVG" className="h-4 mr-3" />
-            <span>Log in with Google</span>
+            <span>Register with Google</span>
           </button>
           <div className="font-light text-sm">
             <Link to="/portal/login">
@@ -152,7 +176,7 @@ function SignUpCard() {
     </div>
   ) : 
   (
-    navigate("/application")
+    navigate("/calculator")
   );
 }
 

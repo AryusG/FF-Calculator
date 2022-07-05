@@ -1,47 +1,97 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
+import { UserContext} from "../../contexts/UserContext";
+import { CalculatorContext } from "../../contexts/CalculatorContext";
 import { Link, useNavigate} from "react-router-dom";
 import GooglePng from "../../assets/sign-in-svgs/Google.png";
 import { auth } from "../../firebase-config/firebase-config";
+import { dbGetUser, dbUserExists} from "../../ApiCalls/calls";
 import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-// import { UserMetadata } from "firebase-admin/lib/auth/user-record";
-// ^ double check this file path because it 'module not found'
 
 function LoginCard() {
-
-  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     email: "",
     password: "",
-  })
-
+  }) 
   const [isAuth, setAuth] = useState(false);
+  const navigate = useNavigate();
+  
+  const {calculatorStorage, setCalculatorStorage} = useContext(CalculatorContext)
+  const {globalUser, setGlobalUser} = useContext(UserContext);
 
-  async function logInEmailPass(user) {
+
+  async function LogInEmailPass(user) {
     try {
-      await signInWithEmailAndPassword(auth, user.email, user.password);
-      setAuth(true);
+      const userExists = await dbUserExists(user.email);
+      if (!userExists) {
+        navigate("/portal/signup");
+        throw "User doesn't exist, please sign up to FF Land using Google!";
+      }
+
+      
+      const fetchUserData = await dbGetUser(user.email);
+      const fetchedCalculatorStorage = fetchUserData.calculatorStorage;
+
+      setCalculatorStorage(fetchedCalculatorStorage);
+      setGlobalUser({...globalUser, email: user.email});
+      signInWithEmailAndPassword(auth, user.email, user.password);
+
+      for (const key in calculatorStorage) {
+        if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
+          continue;
+        if (calculatorStorage[key] === "" || calculatorStorage[key] === 0 || calculatorStorage[key] === {}) {
+          setAuth(true);
+          return;
+        }
+      }
+      navigate("/application");
     }
     catch (err){
       console.log(err);
-      alert("Invalid email or password.");
+      alert(err);
     }
   }
 
-  async function registerGoogle(user) {
-    const provider = new GoogleAuthProvider();
+
+  async function LoginGoogle() {
     try {
+      const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
-      if (credential) {
-        setAuth(true);
+      
+      if (!credential) 
+        throw "Error: could not connect to Google"
+
+      const email = result.user.email;
+      const userExists = await dbUserExists(email);
+
+      if (!userExists) {
+        navigate("/portal/signup");
+        throw "User doesn't exist, please sign up to FF Land using Google!";
       }
+
+      const fetchUserData = await dbGetUser(email);
+      const fetchedCalculatorStorage = fetchUserData.calculatorStorage;
+
+      setCalculatorStorage(fetchedCalculatorStorage);
+      setGlobalUser({...globalUser, email: email});
+
+      for (const key in calculatorStorage) {
+        if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
+          continue;
+        if (calculatorStorage[key] === "" || calculatorStorage[key] === 0 || calculatorStorage[key] === {}) {
+          setAuth(true);
+          return;
+        }
+      }
+      navigate("/application");
     }
     catch (err) {
+      alert(err);
       console.log(err);
     }
   }
@@ -49,7 +99,7 @@ function LoginCard() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    logInEmailPass(user);
+    LogInEmailPass(user);
   }
 
   return !isAuth ? (
@@ -99,7 +149,7 @@ function LoginCard() {
         </form>
 
         <div className="px-7 ">
-          <button onClick={()=> {registerGoogle(user)}}
+          <button onClick={()=> {LoginGoogle(user)}}
             className="btn-white border border-pink inline-flex 
             justify-center items-center w-full px-7 mb-2"
           >
@@ -117,7 +167,7 @@ function LoginCard() {
       </div>
     </div>
   ) : (
-    navigate("/application")
+    navigate("/calculator")
   );
 }
 

@@ -9,6 +9,8 @@ user_app_data = {
         
         "email": "jarrahalek@gmail.com",
 
+        "provider": "google",
+
         "currency": 0,
         
         "inventory": [],
@@ -20,14 +22,15 @@ user_app_data = {
         },
         
         "calculator_config": {
-            "passive_income_goal": 0,
-            "from_age": 0,
-            "to_age": 0,
-            "etf": "",
-            "monthly_investment": 0,
-            "total_investment": 0,
-            "saved": 0,
-            "gains": 0
+            "passiveIncomeGoal": "",
+            "fromAge": "",
+            "toAge": "",
+            "totalInvestedGoal": 0,
+            "monthlyPayments": 0,
+            "selectedEtf": {},
+            "totalSaved": 0,
+            "totalGained": 0,
+            "totalTotal": 0,
         }
     }
 }
