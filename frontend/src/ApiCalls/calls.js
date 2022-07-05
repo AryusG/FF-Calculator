@@ -5,10 +5,11 @@ const api = axios.create({
     baseURL: "http://127.0.0.1:5000/api"
 });
 
-async function dbCreateUser(email, provider) {
+async function dbCreateUser(email, uid, provider) {
   try {
     const res = await api.post("/dbCreateUser", {
       email: email,
+      uid: uid,
       provider: provider
     });
     console.log(res);
@@ -21,11 +22,11 @@ async function dbCreateUser(email, provider) {
 }
 
 
-async function dbGetUser(email) {
+async function dbGetUser(uid) {
   try {
     const res = await api.get("/dbGetUser", {
       params: {
-        email: email
+        uid: uid
       }
     });
     console.log(res);
@@ -38,14 +39,14 @@ async function dbGetUser(email) {
 }
 
 
-async function dbUserExists(email) {
+async function dbUserExists(uid) {
   try {
     const res = await api.get("/dbGetUser", {
       params: {
-        email: email
+        uid: uid
       }
     });
-
+    console.log(res)
     return res.data.provider;
   }
     
@@ -56,12 +57,11 @@ async function dbUserExists(email) {
 }
 
 
-async function dbUpdateUserProperty(email, name, value) {
+async function dbUpdateUserProperty(uid, name, value) {
   // Name of the property to update, new value of the property being updated
   try {
-    console.log(value)
     const res = await api.put("/dbUpdate", {
-      email: email,
+      uid: uid,
       name: name,
       value: value
     });

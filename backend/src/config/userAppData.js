@@ -5,6 +5,8 @@ export const newUserAppData = {
   
   email: "",
 
+  uid: 0,
+
   provider: "",
 
   currency: 0,

@@ -12,6 +12,7 @@ function App() {
     firstName: "",
     lastName: "",
     email: "",
+    uid: 0,
   });
 
   const userContextProvider = useMemo(() => {
@@ -34,6 +35,12 @@ function App() {
     () => ({ calculatorStorage, setCalculatorStorage }),
     [calculatorStorage]
   );
+
+  console.log(":DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+  // if theyre logged in, then redirect to the main app page instead of the landing page
+  // do the same for all the routes
+  // if loggedIn -> logged in will be null if local storage has no items for the specified key
+  // they are logged in, will return true
 
   return (
     <BrowserRouter>

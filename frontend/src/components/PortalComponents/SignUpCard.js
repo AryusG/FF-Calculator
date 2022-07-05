@@ -20,32 +20,33 @@ function SignUpCard() {
   });
   const [isAuth, setAuth] = useState(false);
   const {globalUser, setGlobalUser} = useContext(UserContext);
-  const {currCalculatorStorage, setCalculatorStorage} = useContext(CalculatorContext)
   
 
   async function registerEmail(user) {
     try {
-      const userExists = await dbUserExists(user.email);
-      if (userExists) {
-        navigate("/portal/login");
-        throw `User already exists with ${userExists} provider, please log in to FF Land!`;
-      }
-
-      createUserWithEmailAndPassword(
+      const result = await createUserWithEmailAndPassword(
         auth,
         user.email,
         user.password
       );
-        
-      setGlobalUser({...globalUser, email: user.email});
-      dbCreateUser(user.email, "Email");
+
+      const uid = result.user.uid;
+      setGlobalUser({...globalUser, email: user.email, uid: uid});
+      dbCreateUser(user.email, uid, "Email");
+      window.sessionStorage.setItem("globalUser", JSON.stringify(globalUser));
       setAuth(true);
     }
     catch (err) {
+      if (typeof err === "object") {
+        alert(`User already exists with the email "${user.email}", please log in to FF land!`);
+        navigate("/portal/login");
+        return;
+      }
       console.log(err);
       alert(err)
     }
   }
+
 
   async function registerGoogle() {
     try {
@@ -55,17 +56,19 @@ function SignUpCard() {
         
       if (!credential)
         throw "Error: could not connect to Google"
-
+        
+      const uid = result.user.uid;
       const email = result.user.email;
-      const userExists = await dbUserExists(email);
+      const userExists = await dbUserExists(uid);
 
       if (userExists) {
         navigate("/portal/login");
-        throw `User already exists with ${userExists} provider, please log in to FF Land!`;
+        throw `User already exists with the email "${email}" under a ${userExists} provider, please log in to FF Land!`;
       }
 
-      setGlobalUser({...globalUser, email: email});
-      dbCreateUser(email, "Google");
+      setGlobalUser({...globalUser, email: email, uid: uid});
+      dbCreateUser(email, uid, "Google");
+      window.sessionStorage.setItem("globalUser", JSON.stringify(globalUser));
       setAuth(true);
     }
     catch (err) {

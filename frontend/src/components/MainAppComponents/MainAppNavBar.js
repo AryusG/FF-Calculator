@@ -66,7 +66,7 @@ function MainAppNavBar() {
           })}
           <div className="lg:hidden block">
             <span className="mr-4">
-              <Link to="portal/calculator">
+              <Link to="/calculator">
                 <button className="btn-white">Re-Calculate</button>
               </Link>
             </span>

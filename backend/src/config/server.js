@@ -14,17 +14,17 @@ app.use(cors());
 app.get("/api/dbGetUser", async(req, res) => {
 
   try {
-    const email = req.query.email.replace(/[.]/g, ",");
+    const uid = req.query.uid;
 
     // Grab map from db and id associated with users email
     const map = doc(db, "/maps/user_maps");
     const allUsers = (await getDoc(map)).data();
-    const id = allUsers[email];
+    const docId = allUsers[uid];
 
-    if (!id) throw "User does not exist";
+    if (!docId) throw "User does not exist";
 
     // Extract data from the user document 
-    const userDocRef = doc(db, `/user_app_data/${id}`);
+    const userDocRef = doc(db, `/user_app_data/${docId}`);
     const userData = (await getDoc(userDocRef)).data();
 
     res.status(200).json(userData);
@@ -42,6 +42,7 @@ app.post("/api/dbCreateUser", async(req, res) => {
   try {
     const data = newUserAppData;
     data.email = req.body.email;
+    data.uid = req.body.uid;
     data.provider = req.body.provider;
 
     const newUser = await addDoc(user_app_data, data);
@@ -50,12 +51,12 @@ app.post("/api/dbCreateUser", async(req, res) => {
     // retrieve the id assigned to the user in the firebase db
     // and map their email to said id
     const userData = await getDoc(newUser);
-    const id = userData.id;
-    const email = req.body.email.replace(/[.]/g, ",");
+    const docId = userData.id;
+    const uid = req.body.uid;
 
     // SET the map in the db <email, id>
     updateDoc(doc(db, "maps/user_maps"), {
-        [email]: id
+        [uid]: docId
     });
 
     res.status(200).json(userData.data())
@@ -69,17 +70,17 @@ app.post("/api/dbCreateUser", async(req, res) => {
 // updating specific fields of a document - updateDoc()
 app.put("/api/dbUpdate", async(req, res) => {
   try {
-    const email = req.body.email.replace(/[.]/g, ",");
+    const uid = req.body.uid;
     const updatedPropertyName = req.body.name;
     const updatedPropertyValue = req.body.value;
 
     const map = doc(db, "/maps/user_maps");
     const allUsers = (await getDoc(map)).data();
-    const id = allUsers[email];
+    const docId = allUsers[uid];
 
-    if (!id) throw "User does not exist";
+    if (!docId) throw "User does not exist";
 
-    const userDocRef = doc(db, `user_app_data/${id}`);
+    const userDocRef = doc(db, `user_app_data/${docId}`);
     updateDoc(userDocRef, {
       [updatedPropertyName]: updatedPropertyValue
     })

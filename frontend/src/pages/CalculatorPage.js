@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import VillaCozy from "../assets/houses/villa-cozy.png";
 import CalculatorInputCard from "../components/CalculatorComponents/CalculatorInputCard";
@@ -8,6 +8,25 @@ import { CalculatorContext } from "../contexts/CalculatorContext";
 function CalculatorPage() {
   const { calculatorStorage, setCalculatorStorage } =
     useContext(CalculatorContext);
+
+  const calculatorIsEmpty = () => {
+    for (const key in calculatorStorage) {
+      const item = calculatorStorage[key];
+      if ((typeof item === "string" && item !== "")||
+          (typeof item === "number" && item !== 0)||
+          (typeof item === "object" && item !== {})) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  useEffect(() => {
+    if (window.sessionStorage.getItem("calculatorStorage") && calculatorIsEmpty) 
+      setCalculatorStorage(JSON.parse(window.sessionStorage.getItem("calculatorStorage")))  
+  }, []);
+  // on render, if the calculator is empty AND session storage holds a calculator object, (ie the page just got reloaded)
+  // then set the calculator context again.
 
   return (
     <div className="bg-purple-900 min-h-screen sm:py-24 pt-28 pb-96">

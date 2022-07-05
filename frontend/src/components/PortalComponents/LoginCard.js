@@ -26,20 +26,16 @@ function LoginCard() {
 
   async function LogInEmailPass(user) {
     try {
-      const userExists = await dbUserExists(user.email);
-      if (!userExists) {
-        navigate("/portal/signup");
-        throw "User doesn't exist, please sign up to FF Land using Google!";
-      }
-
-      
-      const fetchUserData = await dbGetUser(user.email);
+      const result = await signInWithEmailAndPassword(auth, user.email, user.password); 
+      const uid = result.user.uid;
+      const fetchUserData = await dbGetUser(uid);
       const fetchedCalculatorStorage = fetchUserData.calculatorStorage;
 
       setCalculatorStorage(fetchedCalculatorStorage);
-      setGlobalUser({...globalUser, email: user.email});
-      signInWithEmailAndPassword(auth, user.email, user.password);
+      setGlobalUser({...globalUser, email: user.email, uid: uid});
 
+      // Check the calculator storage, if any properties are blank or 0 or an empty object,
+      // send user to the calculator to finish calculating before engaging in the main app.
       for (const key in calculatorStorage) {
         if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
           continue;
@@ -51,6 +47,10 @@ function LoginCard() {
       navigate("/application");
     }
     catch (err){
+      if (typeof err === "object") {
+        alert("Incorrect email or password, please try again!")
+        return;
+      }
       console.log(err);
       alert(err);
     }
@@ -66,19 +66,20 @@ function LoginCard() {
       if (!credential) 
         throw "Error: could not connect to Google"
 
+      const uid = result.user.uid;
       const email = result.user.email;
-      const userExists = await dbUserExists(email);
+      const userExists = await dbUserExists(uid);
 
       if (!userExists) {
         navigate("/portal/signup");
-        throw "User doesn't exist, please sign up to FF Land using Google!";
+        throw `User "${email}" doesn't exist, please sign up to FF Land using Google!`;
       }
 
-      const fetchUserData = await dbGetUser(email);
+      const fetchUserData = await dbGetUser(uid);
       const fetchedCalculatorStorage = fetchUserData.calculatorStorage;
 
       setCalculatorStorage(fetchedCalculatorStorage);
-      setGlobalUser({...globalUser, email: email});
+      setGlobalUser({...globalUser, email: email, uid: uid});
 
       for (const key in calculatorStorage) {
         if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
