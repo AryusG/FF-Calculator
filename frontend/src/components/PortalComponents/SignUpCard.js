@@ -1,16 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import GooglePng from "../../assets/sign-in-svgs/Google.png";
 import React, { useState } from "react";
-import validator from "validator"
-import {createUserWithEmailAndPassword} from "firebase/auth";
+import validator from "validator";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config/firebase-config";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 function SignUpCard() {
-
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
@@ -21,37 +17,27 @@ function SignUpCard() {
 
   const [isAuth, setAuth] = useState(false);
 
-
   async function registerGoogle() {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
-        
-      if (credential)
-        setAuth(true);
-    }
-    catch (err) {
+
+      if (credential) setAuth(true);
+    } catch (err) {
       console.log(err);
     }
   }
-
 
   async function registerEmail(user) {
     try {
-      await createUserWithEmailAndPassword(
-      auth,
-      user.email,
-      user.password
-      );
+      await createUserWithEmailAndPassword(auth, user.email, user.password);
       setAuth(true);
-    } 
-    catch (err) {
+    } catch (err) {
       console.log(err);
-      alert("Email already in use, log in to FF-Land!")
+      alert("Email already in use, log in to FF-Land!");
     }
   }
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -83,7 +69,12 @@ function SignUpCard() {
         <div className="flex">
           <div className="text-3xl font-medium px-7">Get Started</div>
         </div>
-        <form className="flex-col pb-4 pt-7 px-7" onSubmit={(e)=> {handleSubmit(e)}}>
+        <form
+          className="flex-col pb-4 pt-7 px-7"
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
           <div id="signup-form-1" className="relative">
             <input
               placeholder="Email *"
@@ -98,6 +89,7 @@ function SignUpCard() {
             <input
               placeholder="Password *"
               className="peer input-gray w-full"
+              type="password"
               required
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
@@ -108,6 +100,7 @@ function SignUpCard() {
             <input
               placeholder="Re-enter Password *"
               className="peer input-gray w-full"
+              type="password"
               required
               value={user.reEnteredPass}
               onChange={(e) =>
@@ -117,12 +110,15 @@ function SignUpCard() {
             <label className="absolute floating-label">Re-enter Password</label>
           </div>
           <div className="flex mx-8 pt-2 pb-5 justify-center">
-            <div className="content-center sm:mr-4 mr-2">
-              <input type="checkbox" />
+            <div className="flex">
+              <input id="checkbox-privacy" type="checkbox" className="mr-3" />
+              <label
+                for="checkbox-privacy"
+                className="cursor-pointer hover:underline text-sm"
+              >
+                I agree to FF-Land's Privacy Policy
+              </label>
             </div>
-            <p className="text-sm cursor-pointer hover:underline">
-              I agree to FF-Land's Privacy Policy
-            </p>
           </div>
           <div>
             <button type="submit" className="btn-pink w-full mt-1">
@@ -131,9 +127,10 @@ function SignUpCard() {
           </div>
         </form>
         <div className="px-7 ">
-          <button onClick={()=>{
-            registerGoogle();
-          }}
+          <button
+            onClick={() => {
+              registerGoogle();
+            }}
             className="btn-white border border-pink inline-flex 
             justify-center items-center w-full px-7 mb-2"
           >
@@ -150,8 +147,7 @@ function SignUpCard() {
         </div>
       </div>
     </div>
-  ) : 
-  (
+  ) : (
     navigate("/application")
   );
 }

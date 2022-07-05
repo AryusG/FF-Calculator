@@ -1,4 +1,4 @@
-import {users, user_app_data, db} from "./firebase-config.js"
+import {user_app_data, db} from "./firebase-config.js"
 import {doc, getDoc, setDoc, addDoc, updateDoc} from "firebase/firestore";
 import express from "express"
 import cors from "cors"
@@ -13,7 +13,7 @@ app.use(cors());
 app.get("/api/get", async(req, res) => {
 
     try {
-        const email = req.body.email.replace(/[.]/g, ",");
+        const email = req.query.email.replace(/[.]/g, ",");
         const map = doc(db, `/maps/user_maps`);
         const all_users = (await getDoc(map)).data();
 

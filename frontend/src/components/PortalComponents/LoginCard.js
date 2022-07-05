@@ -23,7 +23,7 @@ function LoginCard() {
 
   async function logInEmailPass(user) {
     try {
-      const result = await signInWithEmailAndPassword(auth, user.email, user.password);
+      await signInWithEmailAndPassword(auth, user.email, user.password);
       setAuth(true);
     }
     catch (err){
@@ -46,7 +46,6 @@ function LoginCard() {
     }
   }
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     logInEmailPass(user);
@@ -68,7 +67,6 @@ function LoginCard() {
               placeholder="Email"
               className="peer input-gray w-full"
               required
-              name="email"
               value={user.email}
               onChange={(e) => {setUser({...user, email: e.target.value})}}
             />
@@ -78,20 +76,18 @@ function LoginCard() {
             <input
               placeholder="Password"
               className="peer input-gray w-full"
+              type="password"
               required
-              name="password"
               value={user.password}
               onChange={(e) => {setUser({...user, password: e.target.value})}}
             />
             <label className="absolute floating-label">Password</label>
           </div>
           <div className="flex mx-8 pt-2 pb-5 justify-center">
-            <div className="content-center sm:mr-4 mr-2">
-              <input type="checkbox" />
+            <div className="content-center flex">
+              <input type="checkbox" id="checkbox-logged-in" className="mr-3"/>
+              <label for="checkbox-logged-in" className="text-sm cursor-pointer hover:underline">Stay logged in for this device</label>
             </div>
-            <p className="text-sm cursor-pointer hover:underline">
-              Stay logged in for this device
-            </p>
           </div>
           <div>
             <button className="btn-pink w-full mt-1" type="submit">Log In</button>
