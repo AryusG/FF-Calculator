@@ -148,7 +148,7 @@ function SignUpCard() {
           </div>
           <div className="flex mx-8 pt-2 pb-5 justify-center">
             <div className="flex">
-              <input id="checkbox-privacy" type="checkbox" className="mr-3" />
+              <input id="checkbox-privacy" type="checkbox" required className="mr-3" />
               <label
                 for="checkbox-privacy"
                 className="cursor-pointer hover:underline text-sm"
