@@ -2,11 +2,9 @@ import React, { useContext } from "react";
 import { CalculatorContext } from "../../contexts/CalculatorContext";
 
 function ProgressBar() {
-  const { calculatorStorage, setCalculatorStorage } =
-    useContext(CalculatorContext);
+  const { calculatorStorage } = useContext(CalculatorContext);
 
-  const { totalTotal, totalSaved, totalGained, totalInvestedGoal } =
-    calculatorStorage;
+  const { totalSaved, totalGained, totalInvestedGoal } = calculatorStorage;
 
   const totalSavedPercentage = (totalSaved / totalInvestedGoal) * 100;
   const totalGainedPercentage = (totalGained / totalInvestedGoal) * 100;
