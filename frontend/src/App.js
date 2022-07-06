@@ -9,8 +9,6 @@ import CalculatorPage from "./pages/CalculatorPage";
 
 function App() {
   const [globalUser, setGlobalUser] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     uid: 0,
   });
@@ -36,7 +34,8 @@ function App() {
     [calculatorStorage]
   );
 
-  console.log(":DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+  const isLoggedIn = window.localStorage.getItem("globalUser") !== null ||
+                     window.sessionStorage.getItem("globalUser") !== null;
   // if theyre logged in, then redirect to the main app page instead of the landing page
   // do the same for all the routes
   // if loggedIn -> logged in will be null if local storage has no items for the specified key
@@ -47,10 +46,10 @@ function App() {
       <UserContext.Provider value={userContextProvider}>
         <CalculatorContext.Provider value={calculatorContextProvider}>
           <Routes>
-            <Route exact path="/" element={<LandingPage />} />
+            <Route exact path="/" element={isLoggedIn ? <MainAppPage /> : <LandingPage />} />
             <Route path="/portal/:type" element={<AccountPortal />} />
             <Route path="/calculator" element={<CalculatorPage />} />
-            <Route path="/application" element={<MainAppPage />} />
+            <Route path="/application" element={isLoggedIn ? <MainAppPage /> : <LandingPage />} />
           </Routes>
         </CalculatorContext.Provider>
       </UserContext.Provider>

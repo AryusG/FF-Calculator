@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { auth } from "../../firebase-config/firebase-config";
+import { signOut } from "firebase/auth";
+import {useNavigate} from "react-router-dom";
 
 function MainAppNavBar() {
   let Links = [
@@ -10,7 +13,16 @@ function MainAppNavBar() {
     { name: "Settings", url: "/application/settings" },
   ];
 
-  const [hamburgerOpen, setHamburgerOpen] = useState(false); 
+const [hamburgerOpen, setHamburgerOpen] = useState(false); 
+const navigate = useNavigate();
+
+
+async function signOutUser() {
+  await signOut(auth);
+  window.sessionStorage.clear();
+  window.localStorage.clear();
+  navigate("/");
+}
 
   return (
     <div className="bg-white shadow-md w-full sticky top-0 left-0">
@@ -71,9 +83,7 @@ function MainAppNavBar() {
               </Link>
             </span>
             <span>
-              <Link to="/">
-                <button className="btn-pink">Sign Out</button>
-              </Link>
+              <button onClick={() => signOutUser()} className="btn-pink">Sign Out</button>
             </span>
           </div>
         </ul>

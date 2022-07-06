@@ -1,15 +1,48 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import VillaCozy from "../assets/houses/villa-cozy.png";
 import CalculatorInputCard from "../components/CalculatorComponents/CalculatorInputCard";
 import CalculatorResults from "../components/CalculatorComponents/CalculatorResultCard";
 import { CalculatorContext } from "../contexts/CalculatorContext";
+import { UserContext } from "../contexts/UserContext";
+import { dbGetUser } from "../ApiCalls/calls"
 
 function CalculatorPage() {
   const { calculatorStorage, setCalculatorStorage } =
     useContext(CalculatorContext);
 
-  const calculatorIsEmpty = () => {
+  const {globalUser, setGlobalUser} = 
+    useContext(UserContext);
+
+  const [restoredUser, setRestoredUser] = useState({
+    email: "",
+    uid: 0
+  });
+
+  /*function windowRestoreCalculatorState() {
+    if (window.sessionStorage.getItem("calculatorStorage") && calculatorStateIsEmpty) {
+      setCalculatorStorage(JSON.parse(window.sessionStorage.getItem("calculatorStorage")));
+    }
+    else if (window.localStorage.getItem("calculatorStorage") && calculatorStateIsEmpty) {
+      setCalculatorStorage(JSON.parse(window.localStorage.getItem("calculatorStorage")));
+    }
+  }*/
+  
+  function windowRestoreUserState() {
+    const sessionUser = window.sessionStorage.getItem("globalUser");
+    const localUser = window.localStorage.getItem("globalUser");
+
+    if (sessionUser !== null && JSON.parse(sessionUser).uid !== 0) {
+      setGlobalUser(JSON.parse(sessionUser));
+      setRestoredUser(JSON.parse(sessionUser));
+    }
+    else if (localUser !== null && JSON.parse(localUser).uid !== 0) {
+      setGlobalUser(JSON.parse(localUser));
+      setRestoredUser(JSON.parse(localUser));
+    }
+  }
+  
+  /*function calculatorStateIsEmpty() {
     for (const key in calculatorStorage) {
       const item = calculatorStorage[key];
       if ((typeof item === "string" && item !== "")||
@@ -20,13 +53,38 @@ function CalculatorPage() {
     }
     return true;
   }
+  
+  function globalUserStateIsEmpty() {
+    for (const key in globalUser) {
+      const item = globalUser[key];
+      if ((typeof item === "string" && item !== "") ||
+          (typeof item === "number" && item !== 0)) {
+        return false
+      }
+    }
+    return true;
+  }*/
+
 
   useEffect(() => {
-    if (window.sessionStorage.getItem("calculatorStorage") && calculatorIsEmpty) 
-      setCalculatorStorage(JSON.parse(window.sessionStorage.getItem("calculatorStorage")))  
+    async function getUser() {
+      const user = await dbGetUser(restoredUser.uid);
+      return user;
+    }
+    //console.log(JSON.stringify(globalUser) + "********************************")
+    windowRestoreUserState();
+    if (window.sessionStorage.getItem("globalUser") || window.localStorage.getItem("globalUser")) {
+      const userData = getUser();
+
+      // handles the case of initial sign up. As this function runs on render, it runs before the user is actually
+      // created. So we can check if the returned stringified data is an empty object. 
+      if (JSON.stringify(userData) !== "{}") {
+        const fetchedCalculator = userData.calculatorStorage;
+        setCalculatorStorage(fetchedCalculator);
+      }
+    }
+
   }, []);
-  // on render, if the calculator is empty AND session storage holds a calculator object, (ie the page just got reloaded)
-  // then set the calculator context again.
 
   return (
     <div className="bg-purple-900 min-h-screen sm:py-24 pt-28 pb-96">

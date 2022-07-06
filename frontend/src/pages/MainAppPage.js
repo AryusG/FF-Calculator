@@ -79,7 +79,7 @@ function MainAppPage() {
 
       <div className="flex justify-center py-7">
         <button onClick={handleInvestPress} className="btn-green">
-          Each Month Investment
+          Monthly Investment
         </button>
       </div>
     </div>

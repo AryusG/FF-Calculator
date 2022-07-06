@@ -31,8 +31,9 @@ function SignUpCard() {
       );
 
       const uid = result.user.uid;
-      setGlobalUser({...globalUser, email: user.email, uid: uid});
+      setGlobalUser({email: user.email, uid: uid});
       dbCreateUser(user.email, uid, "Email");
+      window.sessionStorage.clear();
       window.sessionStorage.setItem("globalUser", JSON.stringify(globalUser));
       setAuth(true);
     }
@@ -66,9 +67,10 @@ function SignUpCard() {
         throw `User already exists with the email "${email}" under a ${userExists} provider, please log in to FF Land!`;
       }
 
-      setGlobalUser({...globalUser, email: email, uid: uid});
+      setGlobalUser({email: email, uid: uid});
       dbCreateUser(email, uid, "Google");
-      window.sessionStorage.setItem("globalUser", JSON.stringify(globalUser));
+      window.sessionStorage.clear();
+      window.sessionStorage.setItem("globalUser", JSON.stringify({email: email, uid: uid}));
       setAuth(true);
     }
     catch (err) {

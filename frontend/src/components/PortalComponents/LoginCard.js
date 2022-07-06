@@ -18,6 +18,7 @@ function LoginCard() {
     password: "",
   }) 
   const [isAuth, setAuth] = useState(false);
+  const [stayLogged, setStayLogged] = useState(false);
   const navigate = useNavigate();
   
   const {calculatorStorage, setCalculatorStorage} = useContext(CalculatorContext)
@@ -32,7 +33,7 @@ function LoginCard() {
       const fetchedCalculatorStorage = fetchUserData.calculatorStorage;
 
       setCalculatorStorage(fetchedCalculatorStorage);
-      setGlobalUser({...globalUser, email: user.email, uid: uid});
+      setGlobalUser({email: user.email, uid: uid});
 
       // Check the calculator storage, if any properties are blank or 0 or an empty object,
       // send user to the calculator to finish calculating before engaging in the main app.
@@ -79,7 +80,16 @@ function LoginCard() {
       const fetchedCalculatorStorage = fetchUserData.calculatorStorage;
 
       setCalculatorStorage(fetchedCalculatorStorage);
-      setGlobalUser({...globalUser, email: email, uid: uid});
+      setGlobalUser({email: email, uid: uid});
+
+      if (stayLogged) {
+        //window.localStorage.setItem("calculatorStorage", JSON.stringify(calculatorStorage));
+        window.localStorage.setItem("globalUser", JSON.stringify(globalUser));
+      }
+      else {
+        //window.sessionStorage.setItem("calculatorStorage", JSON.stringify(calculatorStorage));
+        window.sessionStorage.setItem("globalUser", JSON.stringify(globalUser));
+      }
 
       for (const key in calculatorStorage) {
         if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
@@ -102,6 +112,15 @@ function LoginCard() {
     LogInEmailPass(user);
   }
 
+  const handleStayLoggedIn = (e) => {
+    if (e.target.checked) {
+      setStayLogged(true);
+    }
+    else {
+      setStayLogged(false);
+    }
+  }
+
   return !isAuth ? (
     <div
       className="flex card-white font-ubuntu sm:ml-4 sm:mr-10 mx-16 px-8
@@ -112,14 +131,14 @@ function LoginCard() {
           <div className="text-3xl font-medium px-7">Log In</div>
         </div>
 
-        <form className="flex-col pb-4 pt-7 px-7" onSubmit={(e)=> {handleSubmit(e)}}>
+        <form className="flex-col pb-4 pt-7 px-7" onSubmit={(e)=> handleSubmit(e)}>
           <div id="login-form-1" className="relative">
             <input
               placeholder="Email"
               className="peer input-gray w-full"
               required
               value={user.email}
-              onChange={(e) => {setUser({...user, email: e.target.value})}}
+              onChange={(e) => setUser({...user, email: e.target.value})}
             />
             <label className="absolute floating-label">Email</label>
           </div>
@@ -130,13 +149,19 @@ function LoginCard() {
               type="password"
               required
               value={user.password}
-              onChange={(e) => {setUser({...user, password: e.target.value})}}
+              onChange={(e) => setUser({...user, password: e.target.value})}
             />
             <label className="absolute floating-label">Password</label>
           </div>
           <div className="flex mx-8 pt-2 pb-5 justify-center">
             <div className="content-center flex">
-              <input type="checkbox" id="checkbox-logged-in" className="mr-3"/>
+              <input 
+              type="checkbox" 
+              id="checkbox-logged-in" 
+              className="mr-3"
+              value = {stayLogged}
+              onChange = {(e) => handleStayLoggedIn(e)}
+              />
               <label for="checkbox-logged-in" className="text-sm cursor-pointer hover:underline">Stay logged in for this device</label>
             </div>
           </div>
@@ -146,7 +171,7 @@ function LoginCard() {
         </form>
 
         <div className="px-7 ">
-          <button onClick={()=> {LoginGoogle(user)}}
+          <button onClick={()=> LoginGoogle(user)}
             className="btn-white border border-pink inline-flex 
             justify-center items-center w-full px-7 mb-2"
           >

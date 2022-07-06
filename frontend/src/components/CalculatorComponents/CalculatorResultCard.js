@@ -12,12 +12,6 @@ function CalculatorResults() {
 
   dbUpdateUserProperty(globalUser.uid, "calculatorStorage", calculatorStorage);
   
-  if (window.localStorage.length === 0) {
-    window.sessionStorage.setItem("calculatorStorage", JSON.stringify(calculatorStorage));
-  }
-  else {
-    window.localStorage.setItem("calculatorStorage", JSON.stringify(calculatorStorage));
-  }
   
   return (
     <div className="card-white-calculator font-ubuntu max-w-md">
