@@ -32,7 +32,7 @@ function MainAppPage() {
       setCalculatorStorage({
         ...calculatorStorage,
         totalTotal:
-          totalTotal + monthlyPayments * (1 + growthRatePerMonthFloating),
+          (totalTotal + monthlyPayments) * (1 + growthRatePerMonthFloating),
         totalSaved: totalSaved + monthlyPayments,
         totalGained: totalTotal - totalSaved,
       });
