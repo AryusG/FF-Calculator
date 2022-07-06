@@ -51,7 +51,7 @@ function MainAppPage() {
               <div
                 className="font-ubuntu text-white absolute -top-8 pointer-events-none"
               >
-                {`$ ${Math.round(totalTotal).toLocaleString()} / $ ${totalInvestedGoal.toLocaleString()}`}
+                {`$ ${Math.round(totalTotal).toLocaleString()} / $ ${Math.round(totalInvestedGoal).toLocaleString()}`}
               </div>
               <div
                 className="card-white-progress-bar font-ubuntu font-medium text-xl 
@@ -59,7 +59,7 @@ function MainAppPage() {
               >
                 <div className="">Saved:</div>
                 <div className="bg-pink_light text-pink py-2 px-6 rounded-3xl">
-                  {`$ ${totalSaved.toLocaleString()}`}
+                  {`$ ${Math.round(totalSaved).toLocaleString()}`}
                 </div>
                 <div className="">Gains:</div>
                 <div className="bg-green-100 text-green-500 py-2 px-6 rounded-3xl">
