@@ -9,7 +9,7 @@ function CalculatorResults() {
 
   const monthlyPayments = calculatorStorage.monthlyPayments;
   const totalInvestedGoal = calculatorStorage.totalInvestedGoal;
-  console.log(monthlyPayments);
+  
   dbUpdateUserProperty(
     globalUser.email,
     "calculatorStorage",
