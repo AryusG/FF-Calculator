@@ -49,10 +49,12 @@ function MainAppPage() {
 
   return (
     <div className="bg-purple-900 h-screen overflow-hidden relative">
-      <MainAppNavBar />
+      <div className="z-10">
+        <MainAppNavBar />
+      </div> 
 
-      <div className="flex justify-center sticky top-20">
-        <div className="md:w-7/12 w-8/12 md:my-14 my-14">
+      <div className="flex justify-center sticky top-20 z-1">
+        <div className="sm:w-7/12 w-8/12 sm:my-14 my-14">
           <div className="group relative">
             <ProgressBar />
             <div className="flex justify-center">
@@ -95,7 +97,7 @@ function MainAppPage() {
 
       <div className="flex justify-center py-7 absolute bottom-5 left-1/2 -translate-x-28">
         <button onClick={handleInvestPress} className="btn-green">
-          Each Month Investment
+          <span className="pointer-events-none">Each Month Investment</span>
         </button>
       </div>
     </div>

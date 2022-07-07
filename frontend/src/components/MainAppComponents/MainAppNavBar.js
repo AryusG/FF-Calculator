@@ -55,9 +55,8 @@ function MainAppNavBar() {
                   lg:my-0 my-6"
               >
                 <a
-                  href={url.url}
                   className="text-white font-regular 
-                    hover:text-pink duration-300"
+                    hover:text-pink duration-300 cursor-pointer"
                 >
                   {url.name}
                 </a>
