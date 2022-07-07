@@ -4,14 +4,13 @@ import { UserContext } from "../../contexts/UserContext";
 import { dbUpdateUserProperty } from "../../ApiCalls/calls";
 
 function CalculatorResults() {
-  const { calculatorStorage } = useContext(CalculatorContext);
+  const { calculatorStorage, setCalculatorStorage } = useContext(CalculatorContext);
   const {globalUser, setGlobalUser} = useContext(UserContext);
 
-  let monthlyPayments = parseInt(calculatorStorage.monthlyPayments)
-  let totalInvestedGoal = parseInt(calculatorStorage.totalInvestedGoal)
+  let monthlyPayments = parseInt(calculatorStorage.monthlyPayments);
+  let totalInvestedGoal = parseInt(calculatorStorage.totalInvestedGoal);
 
   dbUpdateUserProperty(globalUser.uid, "calculatorStorage", calculatorStorage);
-  
   
   return (
     <div className="card-white-calculator font-ubuntu max-w-md">

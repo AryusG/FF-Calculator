@@ -1,94 +1,39 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import VillaCozy from "../assets/houses/villa-cozy.png";
 import CalculatorInputCard from "../components/CalculatorComponents/CalculatorInputCard";
 import CalculatorResults from "../components/CalculatorComponents/CalculatorResultCard";
 import { CalculatorContext } from "../contexts/CalculatorContext";
 import { UserContext } from "../contexts/UserContext";
-import { dbGetUser } from "../ApiCalls/calls"
 
 function CalculatorPage() {
   const { calculatorStorage, setCalculatorStorage } =
     useContext(CalculatorContext);
 
-  const {globalUser, setGlobalUser} = 
+  const {globalUser} = 
     useContext(UserContext);
 
-  const [restoredUser, setRestoredUser] = useState({
-    email: "",
-    uid: 0
-  });
+  const isLoggedIn = globalUser.uid !== 0;
 
-  /*function windowRestoreCalculatorState() {
-    if (window.sessionStorage.getItem("calculatorStorage") && calculatorStateIsEmpty) {
-      setCalculatorStorage(JSON.parse(window.sessionStorage.getItem("calculatorStorage")));
-    }
-    else if (window.localStorage.getItem("calculatorStorage") && calculatorStateIsEmpty) {
-      setCalculatorStorage(JSON.parse(window.localStorage.getItem("calculatorStorage")));
-    }
-  }*/
-  
-  function windowRestoreUserState() {
-    const sessionUser = window.sessionStorage.getItem("globalUser");
-    const localUser = window.localStorage.getItem("globalUser");
+  const navigate = useNavigate();
 
-    if (sessionUser !== null && JSON.parse(sessionUser).uid !== 0) {
-      setGlobalUser(JSON.parse(sessionUser));
-      setRestoredUser(JSON.parse(sessionUser));
-    }
-    else if (localUser !== null && JSON.parse(localUser).uid !== 0) {
-      setGlobalUser(JSON.parse(localUser));
-      setRestoredUser(JSON.parse(localUser));
-    }
-  }
-  
-  /*function calculatorStateIsEmpty() {
+  const unfinishedCalculations = () => {
     for (const key in calculatorStorage) {
-      const item = calculatorStorage[key];
-      if ((typeof item === "string" && item !== "")||
-          (typeof item === "number" && item !== 0)||
-          (typeof item === "object" && item !== {})) {
-        return false;
+      if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
+          continue;
+
+      if (calculatorStorage[key] === "" || 
+          calculatorStorage[key] === 0  || 
+          calculatorStorage[key] === {}) {
+        return true;
       }
     }
-    return true;
+    return false;
   }
-  
-  function globalUserStateIsEmpty() {
-    for (const key in globalUser) {
-      const item = globalUser[key];
-      if ((typeof item === "string" && item !== "") ||
-          (typeof item === "number" && item !== 0)) {
-        return false
-      }
-    }
-    return true;
-  }*/
-
-
-  useEffect(() => {
-    async function getUser() {
-      const user = await dbGetUser(restoredUser.uid);
-      return user;
-    }
-    //console.log(JSON.stringify(globalUser) + "********************************")
-    windowRestoreUserState();
-    if (window.sessionStorage.getItem("globalUser") || window.localStorage.getItem("globalUser")) {
-      const userData = getUser();
-
-      // handles the case of initial sign up. As this function runs on render, it runs before the user is actually
-      // created. So we can check if the returned stringified data is an empty object. 
-      if (JSON.stringify(userData) !== "{}") {
-        const fetchedCalculator = userData.calculatorStorage;
-        setCalculatorStorage(fetchedCalculator);
-      }
-    }
-
-  }, []);
 
   return (
     <div className="bg-purple-900 min-h-screen sm:py-24 pt-28 pb-96">
-      <Link to="/">
+      <Link to={unfinishedCalculations() ? "/calculator" : "/"}>
         <div
           className="font-ubuntu font-bold text-white text-2xl py-2 px-6 
           top-8 left-12 bg-purple-500 absolute cursor-pointer"
@@ -138,9 +83,21 @@ function CalculatorPage() {
               >
                 Reset
               </button>
-              <Link to="/application">
-                <button className="btn-green text-lg">Play Now</button>
-              </Link>
+              <button 
+                className="btn-green text-lg" 
+                onClick={()=>{
+                  if (!isLoggedIn) {
+                    alert("Please log in / sign up to FF-Land");
+                    navigate("/portal/login");
+                  }
+                  else if (unfinishedCalculations()) {
+                    alert("Please finish calculating before enjoying the rest of FF-Land!");
+                  }
+                  else {
+                    navigate("/");
+                  }}
+                }>Play Now
+              </button>  
             </div>
             <img
               className="absolute z-1 w-full sm:scale-150 scale-110 -bottom-82"

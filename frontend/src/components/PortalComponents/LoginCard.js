@@ -27,25 +27,37 @@ function LoginCard() {
 
   async function LogInEmailPass(user) {
     try {
-      const result = await signInWithEmailAndPassword(auth, user.email, user.password); 
+      const email = user.email;
+      const password = user.password;
+
+      const result = await signInWithEmailAndPassword(auth, email, password); 
       const uid = result.user.uid;
-      const fetchUserData = await dbGetUser(uid);
-      const fetchedCalculatorStorage = fetchUserData.calculatorStorage;
+
+      const fetchedCalculatorStorage = (await dbGetUser(uid)).calculatorStorage;
 
       setCalculatorStorage(fetchedCalculatorStorage);
-      setGlobalUser({email: user.email, uid: uid});
+      setGlobalUser({email: email, uid: uid});
+
+      window.sessionStorage.setItem("calculatorStorage", JSON.stringify(fetchedCalculatorStorage));
+
+      if (stayLogged) {
+        window.localStorage.setItem("globalUser", JSON.stringify({email: email, uid: uid}));
+      }
+      else {
+        window.sessionStorage.setItem("globalUser", JSON.stringify({email: email, uid: uid}));
+      }
 
       // Check the calculator storage, if any properties are blank or 0 or an empty object,
       // send user to the calculator to finish calculating before engaging in the main app.
-      for (const key in calculatorStorage) {
+      for (const key in fetchedCalculatorStorage) {
         if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
           continue;
-        if (calculatorStorage[key] === "" || calculatorStorage[key] === 0 || calculatorStorage[key] === {}) {
+        if (fetchedCalculatorStorage[key] === "" || fetchedCalculatorStorage[key] === 0 || fetchedCalculatorStorage[key] === {}) {
           setAuth(true);
           return;
         }
       }
-      navigate("/application");
+      navigate("/");
     }
     catch (err){
       if (typeof err === "object") {
@@ -82,24 +94,24 @@ function LoginCard() {
       setCalculatorStorage(fetchedCalculatorStorage);
       setGlobalUser({email: email, uid: uid});
 
+      window.sessionStorage.setItem("calculatorStorage", JSON.stringify(fetchedCalculatorStorage));
+
       if (stayLogged) {
-        //window.localStorage.setItem("calculatorStorage", JSON.stringify(calculatorStorage));
-        window.localStorage.setItem("globalUser", JSON.stringify(globalUser));
+        window.localStorage.setItem("globalUser", JSON.stringify({email: email, uid: uid}));
       }
       else {
-        //window.sessionStorage.setItem("calculatorStorage", JSON.stringify(calculatorStorage));
-        window.sessionStorage.setItem("globalUser", JSON.stringify(globalUser));
+        window.sessionStorage.setItem("globalUser", JSON.stringify({email: email, uid: uid}));
       }
 
-      for (const key in calculatorStorage) {
+      for (const key in fetchedCalculatorStorage) {
         if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
           continue;
-        if (calculatorStorage[key] === "" || calculatorStorage[key] === 0 || calculatorStorage[key] === {}) {
+        if (fetchedCalculatorStorage[key] === "" || fetchedCalculatorStorage[key] === 0 || fetchedCalculatorStorage[key] === {}) {
           setAuth(true);
           return;
         }
       }
-      navigate("/application");
+      navigate("/");
     }
     catch (err) {
       alert(err);
@@ -114,10 +126,10 @@ function LoginCard() {
 
   const handleStayLoggedIn = (e) => {
     if (e.target.checked) {
-      setStayLogged(true);
+      setStayLogged(true);   
     }
     else {
-      setStayLogged(false);
+      setStayLogged(false);  
     }
   }
 

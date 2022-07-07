@@ -1,5 +1,5 @@
 import {user_app_data, db} from "./firebase-config.js"
-import {doc, getDoc, setDoc, addDoc, updateDoc} from "firebase/firestore";
+import {doc, getDoc, setDoc, addDoc, updateDoc, collection, deleteDoc} from "firebase/firestore";
 import {newUserAppData} from './userAppData.js'
 import express from "express"
 import cors from "cors"
@@ -93,8 +93,28 @@ app.put("/api/dbUpdate", async(req, res) => {
   }
 });
 
-app.delete("/api/delete", (req, res) => {
-    
+app.delete("/api/delete", async(req, res) => {
+
+  try {
+    const map = doc(db, "/maps/user_maps");
+    const allUsers = (await getDoc(map)).data();
+  
+    const docIds = [];
+    for (const key in allUsers) {
+      docIds.push(allUsers[key]);
+    }
+  
+    for (const docId of docIds) {
+      const docRef = doc(db, `/user_app_data/${docId}`);
+      deleteDoc(docRef);
+    }
+
+    res.status(200).send("all users deleted")
+  }
+  catch(err) {
+    console.log(err)
+    res.status(500).send("unable to delete all users")
+  }
 });
 
 app.listen(port, () => {
