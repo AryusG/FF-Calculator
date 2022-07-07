@@ -48,7 +48,7 @@ function MainAppPage() {
   }, [totalTotal]);
 
   return (
-    <div className="bg-purple-900 h-screen">
+    <div className="bg-purple-900 h-screen overflow-hidden relative">
       <MainAppNavBar />
 
       <div className="flex justify-center sticky top-20">
@@ -79,21 +79,21 @@ function MainAppPage() {
         </div>
       </div>
 
-      <div className="flex justify-center py-7 my-10">
-        <div className="max-w-xl">
+      <div className="flex justify-center py-6 my-10">
+        <div className="max-w-2xl">
           {totalTotalPercentage < 1 || totalTotalPercentage === 0
           ? (<img src={BasicHouse} alt="BasicHouse" />) 
-          : totalTotalPercentage < 3 
+          : totalTotalPercentage < 2 
           ? (<img src={TwoStoryCozyHouse} alt="TwoStoryCozyHouse" />) 
-          : totalTotalPercentage < 5
-          ? (<img src={VillaCozyHouse} alt="VillaCozyHouse" className="max-w-sm"/>)
-          : totalTotalPercentage < 8 
-          ? (<img src={TallHouse} alt="TallHouse" />)
+          : totalTotalPercentage < 4
+          ? (<img src={VillaCozyHouse} alt="VillaCozyHouse" />)
+          : totalTotalPercentage < 7 
+          ? (<img src={TallHouse} alt="TallHouse" className="max-w-sm"/>)
           : (<img src={LakeLandHouse} alt="LakeLandHouse" />)}
         </div>
       </div>
 
-      <div className="flex justify-center py-7">
+      <div className="flex justify-center py-7 absolute bottom-5 left-1/2 -translate-x-28">
         <button onClick={handleInvestPress} className="btn-green">
           Each Month Investment
         </button>
