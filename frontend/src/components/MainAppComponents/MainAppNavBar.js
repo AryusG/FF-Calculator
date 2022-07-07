@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { auth } from "../../firebase-config/firebase-config";
+import { reload, signOut } from "firebase/auth";
+import {useNavigate} from "react-router-dom";
 
 function MainAppNavBar() {
   let Links = [
@@ -10,7 +13,14 @@ function MainAppNavBar() {
     { name: "Settings", url: "/application/settings" },
   ];
 
-  const [hamburgerOpen, setHamburgerOpen] = useState(false); 
+const [hamburgerOpen, setHamburgerOpen] = useState(false); 
+
+function signOutUser() {
+  signOut(auth);
+  window.sessionStorage.clear();
+  window.localStorage.clear();
+  window.location.reload();
+}
 
   return (
     <div className="bg-white shadow-md w-full sticky top-0 left-0">
@@ -65,14 +75,12 @@ function MainAppNavBar() {
           })}
           <div className="lg:hidden block">
             <span className="mr-4">
-              <Link to="portal/calculator">
+              <Link to="/calculator">
                 <button className="btn-white">Re-Calculate</button>
               </Link>
             </span>
             <span>
-              <Link to="/">
-                <button className="btn-pink">Sign Out</button>
-              </Link>
+              <button onClick={() => signOutUser()} className="btn-pink">Sign Out</button>
             </span>
           </div>
         </ul>
@@ -84,7 +92,7 @@ function MainAppNavBar() {
           </div>
           <div className="lg:ml-4 lg:block hidden">
             <Link to="/">
-              <button className="btn-pink">Sign Out</button>
+              <button onClick={() => signOutUser()} className="btn-pink">Sign Out</button>
             </Link>
           </div>
         </div>

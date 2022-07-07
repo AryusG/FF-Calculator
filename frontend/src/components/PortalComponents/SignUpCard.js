@@ -10,6 +10,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { dbCreateUser, dbUserExists } from "../../ApiCalls/calls";
 import GooglePng from "../../assets/sign-in-svgs/Google.png";
 import validator from "validator";
+import CalculatorResults from "../CalculatorComponents/CalculatorResultCard";
 
 function SignUpCard() {
   const navigate = useNavigate();
@@ -19,33 +20,36 @@ function SignUpCard() {
     reEnteredPass: "",
   });
   const [isAuth, setAuth] = useState(false);
+  const [privacyAgree, setPrivacyAgree] = useState(false);
   const {globalUser, setGlobalUser} = useContext(UserContext);
-  const {currCalculatorStorage, setCalculatorStorage} = useContext(CalculatorContext)
-  
 
   async function registerEmail(user) {
     try {
-      const userExists = await dbUserExists(user.email);
-      if (userExists) {
-        navigate("/portal/login");
-        throw `User already exists with ${userExists} provider, please log in to FF Land!`;
-      }
-
-      createUserWithEmailAndPassword(
+      const email = user.email;
+      const password = user.password;
+      const result = await createUserWithEmailAndPassword(
         auth,
-        user.email,
-        user.password
+        email,
+        password
       );
-        
-      setGlobalUser({...globalUser, email: user.email});
-      dbCreateUser(user.email, "Email");
+
+      const uid = result.user.uid;
+      setGlobalUser({email: email, uid: uid});
+      dbCreateUser(email, uid, "Email");
+      window.sessionStorage.setItem("globalUser", JSON.stringify({email: email, uid: uid}));
       setAuth(true);
     }
     catch (err) {
+      if (typeof err === "object") {
+        alert(`User already exists with the email "${user.email}", please log in to FF land!`);
+        navigate("/portal/login");
+        return;
+      }
       console.log(err);
       alert(err)
     }
   }
+
 
   async function registerGoogle() {
     try {
@@ -56,16 +60,23 @@ function SignUpCard() {
       if (!credential)
         throw "Error: could not connect to Google"
 
+      if (!privacyAgree) {
+        alert("Please read and agree with FF-Land's Privacy Policy before proceeding!");
+        return;
+      }
+        
+      const uid = result.user.uid;
       const email = result.user.email;
-      const userExists = await dbUserExists(email);
+      const userExists = await dbUserExists(uid);
 
       if (userExists) {
         navigate("/portal/login");
-        throw `User already exists with ${userExists} provider, please log in to FF Land!`;
+        throw `User already exists with the email "${email}" under a ${userExists} provider, please log in to FF Land!`;
       }
 
-      setGlobalUser({...globalUser, email: email});
-      dbCreateUser(email, "Google");
+      setGlobalUser({email: email, uid: uid});
+      dbCreateUser(email, uid, "Google");
+      window.sessionStorage.setItem("globalUser", JSON.stringify({email: email, uid: uid}));
       setAuth(true);
     }
     catch (err) {
@@ -93,8 +104,22 @@ function SignUpCard() {
       return;
     }
 
+    if (!privacyAgree) {
+      alert("Please read and agree with FF-Land's Privacy Policy before proceeding!");
+      return;
+    }
+
     registerEmail(user);
   };
+
+  const handlePrivacy = (e) => { 
+    if (e.target.checked) {
+      setPrivacyAgree(true);
+    }
+    else {
+      setPrivacyAgree(false)
+    }
+  }
 
 
   return !isAuth ? (
@@ -148,9 +173,15 @@ function SignUpCard() {
           </div>
           <div className="flex mx-8 pt-2 pb-5 justify-center">
             <div className="flex">
-              <input id="checkbox-privacy" type="checkbox" required className="mr-3" />
+              <input 
+              id="checkbox-privacy" 
+              type="checkbox" 
+              className="mr-3" 
+              value={privacyAgree}
+              onChange={(e) => handlePrivacy(e)}
+              />
               <label
-                for="checkbox-privacy"
+                htmlFor="checkbox-privacy"
                 className="cursor-pointer hover:underline text-sm"
               >
                 I agree to FF-Land's Privacy Policy

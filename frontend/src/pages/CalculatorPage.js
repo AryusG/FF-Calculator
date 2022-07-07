@@ -1,17 +1,39 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import VillaCozy from "../assets/houses/villa-cozy.png";
 import CalculatorInputCard from "../components/CalculatorComponents/CalculatorInputCard";
 import CalculatorResults from "../components/CalculatorComponents/CalculatorResultCard";
 import { CalculatorContext } from "../contexts/CalculatorContext";
+import { UserContext } from "../contexts/UserContext";
 
 function CalculatorPage() {
   const { calculatorStorage, setCalculatorStorage } =
     useContext(CalculatorContext);
 
+  const {globalUser} = 
+    useContext(UserContext);
+
+  const isLoggedIn = globalUser.uid !== 0;
+
+  const navigate = useNavigate();
+
+  const unfinishedCalculations = () => {
+    for (const key in calculatorStorage) {
+      if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
+          continue;
+
+      if (calculatorStorage[key] === "" || 
+          calculatorStorage[key] === 0  || 
+          calculatorStorage[key] === {}) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   return (
     <div className="bg-purple-900 min-h-screen sm:py-24 pt-28 pb-96">
-      <Link to="/">
+      <Link to={unfinishedCalculations() ? "/calculator" : "/"}>
         <div
           className="font-ubuntu font-bold text-white text-2xl py-2 px-6 
           top-8 left-12 bg-purple-500 absolute cursor-pointer"
@@ -61,9 +83,21 @@ function CalculatorPage() {
               >
                 Reset
               </button>
-              <Link to="/application">
-                <button className="btn-green text-lg">Play Now</button>
-              </Link>
+              <button 
+                className="btn-green text-lg" 
+                onClick={()=>{
+                  if (!isLoggedIn) {
+                    alert("Please log in / sign up to FF-Land");
+                    navigate("/portal/login");
+                  }
+                  else if (unfinishedCalculations()) {
+                    alert("Please finish calculating before enjoying the rest of FF-Land!");
+                  }
+                  else {
+                    navigate("/");
+                  }}
+                }>Play Now
+              </button>  
             </div>
             <img
               className="absolute z-1 w-full sm:scale-150 scale-110 -bottom-82"
