@@ -48,14 +48,14 @@ function Calculator() {
   }, [selectedEtf]);
 
   const totalInvestedGoal = useMemo(() => {
-    return Math.round(calculatorStorage.passiveIncomeGoal / dividendRate);
+    return calculatorStorage.passiveIncomeGoal / dividendRate;
   }, [calculatorStorage.passiveIncomeGoal, dividendRate]);
 
   const monthlyPayments = useMemo(() => {
     const yearsToInvest = calculatorStorage.toAge - calculatorStorage.fromAge;
     const numerator = totalInvestedGoal * (1 + etfGrowthRate / 12 - 1);
     const denominator = Math.pow(1 + etfGrowthRate / 12, yearsToInvest * 12) - 1;
-    return (numerator / denominator).toFixed(2);
+    return numerator / denominator;
   }, [
     calculatorStorage.toAge,
     calculatorStorage.fromAge,
@@ -79,8 +79,8 @@ function Calculator() {
 
     setCalculatorStorage({
       ...calculatorStorage,
-      totalInvestedGoal: parseInt(totalInvestedGoal),
-      monthlyPayments: parseInt(monthlyPayments),
+      totalInvestedGoal: parseFloat(totalInvestedGoal),
+      monthlyPayments: parseFloat(monthlyPayments),
       selectedEtf: selectedEtf
     });
   };
