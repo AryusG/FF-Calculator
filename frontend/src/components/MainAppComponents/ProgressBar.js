@@ -1,13 +1,22 @@
 import React, { useContext } from "react";
 import { CalculatorContext } from "../../contexts/CalculatorContext";
+import { UserContext } from "../../contexts/UserContext";
+import { dbUpdateUserProperty } from "../../ApiCalls/calls"
 
 function ProgressBar() {
   const { calculatorStorage } = useContext(CalculatorContext);
+  const { globalUser } = useContext(UserContext); 
 
   const { totalSaved, totalGained, totalInvestedGoal } = calculatorStorage;
 
   const totalSavedPercentage = (totalSaved / totalInvestedGoal) * 100;
   const totalGainedPercentage = (totalGained / totalInvestedGoal) * 100;
+
+  dbUpdateUserProperty(
+    globalUser.uid,
+    "calculatorStorage",
+    calculatorStorage
+  );
 
   return (
     <>
