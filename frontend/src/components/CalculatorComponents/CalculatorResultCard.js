@@ -11,7 +11,7 @@ function CalculatorResults() {
   const totalInvestedGoal = calculatorStorage.totalInvestedGoal;
   
   dbUpdateUserProperty(
-    globalUser.email,
+    globalUser.uid,
     "calculatorStorage",
     calculatorStorage
   );
