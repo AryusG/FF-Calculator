@@ -1,26 +1,46 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase-config/firebase-config";
-import { reload, signOut } from "firebase/auth";
-import {useNavigate} from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { CalculatorContext } from "../../contexts/CalculatorContext";
 
 function MainAppNavBar() {
+  const { calculatorStorage, setCalculatorStorage } =
+    useContext(CalculatorContext);
+
+  const navigate = useNavigate();
+
   let Links = [
     { name: "Profile", url: "/application/profile" },
     { name: "Inventory", url: "/application/inventory" },
     { name: "Shop", url: "/application/shop" },
     { name: "Social", url: "/application/social" },
-    { name: "Settings", url: "/application/settings" },
   ];
 
-const [hamburgerOpen, setHamburgerOpen] = useState(false); 
+  const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
-function signOutUser() {
-  signOut(auth);
-  window.sessionStorage.clear();
-  window.localStorage.clear();
-  window.location.reload();
-}
+  function signOutUser() {
+    signOut(auth);
+    window.sessionStorage.clear();
+    window.localStorage.clear();
+    window.location.reload();
+  }
+
+  const handleHardReset = () => {
+    setCalculatorStorage({
+      ...calculatorStorage,
+      passiveIncomeGoal: "",
+      fromAge: "",
+      toAge: "",
+      totalInvestedGoal: 0,
+      monthlyPayments: 0,
+      selectedEtf: {},
+      totalSaved: 0,
+      totalGained: 0,
+      totalTotal: 0,
+    })
+    navigate("/calculator");
+  }
 
   return (
     <div className="bg-white shadow-md w-full sticky top-0 left-0">
@@ -33,15 +53,18 @@ function signOutUser() {
         cursor-pointer flex items-center justify-between"
         >
           <Link to="/">
-            <div className="hover:scale-110 active:scale-90 
-              duration-300">
+            <div
+              className="hover:scale-110 active:scale-90 
+              duration-300"
+            >
               FF-Land
             </div>
           </Link>
           <span
             onClick={() => setHamburgerOpen(!hamburgerOpen)}
             className="text-4xl cursor-pointer lg:hidden mx-2 -mb-3 hover:scale-110
-            active:scale-90 duration-300">
+            active:scale-90 duration-300"
+          >
             <ion-icon
               name={hamburgerOpen ? "close-outline" : "menu-outline"}
             ></ion-icon>
@@ -75,16 +98,24 @@ function signOutUser() {
           })}
           <div className="lg:hidden block">
             <span className="mr-4">
+              <button className="btn-white" onClick={handleHardReset}>Hard Reset</button>
+            </span>
+            <span className="mr-4">
               <Link to="/calculator">
                 <button className="btn-white">Re-Calculate</button>
               </Link>
             </span>
             <span>
-              <button onClick={() => signOutUser()} className="btn-pink">Sign Out</button>
+              <button onClick={() => signOutUser()} className="btn-pink">
+                Sign Out
+              </button>
             </span>
           </div>
         </ul>
         <div className="lg:ml-auto flex">
+          <div className="lg:ml-4 lg:block hidden">
+            <button className="btn-white" onClick={handleHardReset}>Hard Reset</button>
+          </div>
           <div className="lg:ml-4 lg:block hidden">
             <Link to="/calculator">
               <button className="btn-white">Re-Calculate</button>
@@ -92,13 +123,15 @@ function signOutUser() {
           </div>
           <div className="lg:ml-4 lg:block hidden">
             <Link to="/">
-              <button onClick={() => signOutUser()} className="btn-pink">Sign Out</button>
+              <button onClick={() => signOutUser()} className="btn-pink">
+                Sign Out
+              </button>
             </Link>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default MainAppNavBar
+export default MainAppNavBar;
