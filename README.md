@@ -1,4 +1,4 @@
-# Financial Freedom - Passive Income Calculator App 
+# FF-Land - Gamifying the Path to Financial Freedom
 <img width="1310" alt="Screenshot 2022-07-10 at 12 56 52 pm" src="https://user-images.githubusercontent.com/82213524/178129468-5a55973a-f05a-4c29-b558-d3eb6729bb66.png">
 
 FF-Land is envisioned to be a game that encourages users to make monthly investments to dollar cost average the market.
@@ -9,6 +9,7 @@ The app would theoretically be hooked up to a brokerage so that when users make 
 My partner on this project and I love video games. We also understand that games create positive feedback loops which entice you to play again. We wanted to tap into this concept to retain users but to also make building financial freedom as fun of a process that they could share alongside a vibrant community and friends.
 
 ## Placeholders
+- Title of the app
 - Images (taken from Habbo)
 - Navbar links (buttons work)
 - Main app page would have hover animations over the progress bar but due to the 'lack of an actual game', we've decided to keep them static and visible so that testing of core functionality is simple. 
