@@ -14,10 +14,20 @@ My partner on this project and I love video games. We also understand that games
 - Title of the app
 - Images (taken from Habbo)
 - Navbar links (buttons work though)
-- Main app page would have hover animations over the progress bar but due to the 'lack of an actual game', we've decided to keep them static and visible so that testing of core functionality is simple. 
+- Main app page would have hover animations over the progress bar but due to the 'lack of an actual game', we've decided to keep them static and visible so that testing of core functionality is simple
+- Main app page "Invest Monthly Button" is for testing purposes
+
+## Current Features
+- Login/Logout to save data for each user
+- 'Try for Free' only allows for calculator usage and not the full experience
+- Passive Income Calculator 
+- Progress Bar in the MainAppPage
 
 ### Figma Designs
 https://www.figma.com/file/w43DoJTam8N9IoElDSRz9Q/Financial-Freedom-App?node-id=33%3A164
 
 ### Read /frontend/README.md
  - For all npm scripts.
+
+### Technologies Used
+- React.js, Tailwind CSS, Firebase, Express, Node.js 
