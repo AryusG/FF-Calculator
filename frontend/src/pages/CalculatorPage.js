@@ -10,8 +10,7 @@ function CalculatorPage() {
   const { calculatorStorage, setCalculatorStorage } =
     useContext(CalculatorContext);
 
-  const {globalUser} = 
-    useContext(UserContext);
+  const { globalUser } = useContext(UserContext);
 
   const isLoggedIn = globalUser.uid !== 0;
 
@@ -20,29 +19,41 @@ function CalculatorPage() {
   const unfinishedCalculations = () => {
     for (const key in calculatorStorage) {
       if (key === "totalSaved" || key === "totalGained" || key === "totalTotal")
-          continue;
+        continue;
 
-      if (calculatorStorage[key] === "" || 
-          calculatorStorage[key] === 0  || 
-          calculatorStorage[key] === {}) {
+      if (
+        calculatorStorage[key] === "" ||
+        calculatorStorage[key] === 0 ||
+        calculatorStorage[key] === {}
+      ) {
         return true;
       }
     }
     return false;
+  };
+
+  const handleHomeButton = () => {
+    if (!isLoggedIn) {
+      navigate("/")
+    } else if (unfinishedCalculations()) {
+      alert("Finish calculations first")
+      navigate("/calculator")
+    } else {
+      navigate("/")
+    }
   }
 
   return (
     <div className="bg-purple-900 min-h-screen sm:py-24 pt-28 pb-96 overflow-hidden">
-      <Link to={unfinishedCalculations() ? "/calculator" : "/"}>
-        <div
-          className="font-ubuntu font-bold text-white text-2xl py-2 px-6 
+      <button
+        className="font-ubuntu font-bold text-white text-2xl py-2 px-6 
           top-8 left-12 bg-purple-500 absolute cursor-pointer"
-        >
-          <div className="hover:scale-110 active:scale-90 duration-300">
-            FF-Land
-          </div>
+        onClick={handleHomeButton}
+      >
+        <div className="hover:scale-110 active:scale-90 duration-300">
+          FF-Land
         </div>
-      </Link>
+      </button>
 
       <div className="sm:grid sm:grid-cols-2">
         <div
@@ -83,21 +94,23 @@ function CalculatorPage() {
               >
                 Reset
               </button>
-              <button 
-                className="btn-green text-lg" 
-                onClick={()=>{
+              <button
+                className="btn-green text-lg"
+                onClick={() => {
                   if (!isLoggedIn) {
                     alert("Please log in / sign up to FF-Land");
                     navigate("/portal/login");
-                  }
-                  else if (unfinishedCalculations()) {
-                    alert("Please finish calculating before enjoying the rest of FF-Land!");
-                  }
-                  else {
+                  } else if (unfinishedCalculations()) {
+                    alert(
+                      "Please finish calculating before enjoying the rest of FF-Land!"
+                    );
+                  } else {
                     navigate("/");
-                  }}
-                }>Play Now
-              </button>  
+                  }
+                }}
+              >
+                Play Now
+              </button>
             </div>
             <img
               className="absolute z-1 w-full sm:scale-150 scale-110 -bottom-82"
@@ -106,7 +119,6 @@ function CalculatorPage() {
             />
           </div>
         </div>
-
       </div>
     </div>
   );
