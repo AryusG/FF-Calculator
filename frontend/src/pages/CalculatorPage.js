@@ -32,7 +32,7 @@ function CalculatorPage() {
   }
 
   return (
-    <div className="bg-purple-900 min-h-screen sm:py-24 pt-28 pb-96">
+    <div className="bg-purple-900 min-h-screen sm:py-24 pt-28 pb-96 overflow-hidden">
       <Link to={unfinishedCalculations() ? "/calculator" : "/"}>
         <div
           className="font-ubuntu font-bold text-white text-2xl py-2 px-6 
