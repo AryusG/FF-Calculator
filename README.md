@@ -1,5 +1,6 @@
 # FF-Land - Gamifying the Path to Financial Freedom
-<img width="1310" alt="Screenshot 2022-07-10 at 12 56 52 pm" src="https://user-images.githubusercontent.com/82213524/178129468-5a55973a-f05a-4c29-b558-d3eb6729bb66.png">
+<img width="1310" alt="Screenshot 2022-07-10 at 12 56 52 pm" src="https://user-images.githubusercontent.com/82213524/178129468-5a55973a-f05a-4c29-b558-d3eb6729bb66.png"><img width="1353" alt="Screenshot 2022-07-10 at 1 23 49 pm" src="https://user-images.githubusercontent.com/82213524/178130041-b10882e9-38ab-456d-9268-007ac88a3a05.png">
+
 
 FF-Land is envisioned to be a game that encourages users to make monthly investments to dollar cost average the market.
 
