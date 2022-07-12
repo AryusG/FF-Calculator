@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection } from "firebase/firestore";
 import dotenv from "dotenv";
 
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: `../.env` });
 
 const firebaseConfig = {
   apiKey: process.env.apiKey,
