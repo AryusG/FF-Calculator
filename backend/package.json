@@ -5,7 +5,7 @@
   "description": "backend for ff calc",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/config/server.js"
+    "start_server": "nodemon ./src/config/server.js"
   },
   "repository": {
     "type": "git",
